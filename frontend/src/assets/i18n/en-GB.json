@@ -1,0 +1,120 @@
+{
+  "app": {
+    "title": "Car Fleet Management",
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "filter": "Filter",
+    "reset": "Reset",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous"
+  },
+  "auth": {
+    "login": "Login",
+    "logout": "Logout",
+    "email": "Email",
+    "password": "Password",
+    "invalidCredentials": "Invalid email or password",
+    "loginRequired": "Please log in to access this page"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "cars": "Cars",
+    "clients": "Clients",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "cars": {
+    "title": "Available Cars",
+    "brand": "Brand",
+    "model": "Model",
+    "year": "Year",
+    "type": "Type",
+    "capacity": "Capacity",
+    "pricePerDay": "Price per Day",
+    "status": "Status",
+    "gearbox": "Gearbox",
+    "engine": "Engine",
+    "amenities": "Amenities",
+    "description": "Description",
+    "mileage": "Mileage",
+    "fuelConsumption": "Fuel Consumption",
+    "maxRentalDays": "Max Rental Days",
+    "rentNow": "Rent Now",
+    "viewDetails": "View Details",
+    "addCar": "Add Car",
+    "editCar": "Edit Car",
+    "filters": "Filters",
+    "clearFilters": "Clear Filters",
+    "noResults": "No cars found matching your criteria"
+  },
+  "clients": {
+    "title": "Clients",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "birthDate": "Birth Date",
+    "address": "Address",
+    "credits": "Credits",
+    "status": "Status",
+    "createdAt": "Created At",
+    "updatedAt": "Updated At",
+    "addClient": "Add Client",
+    "editClient": "Edit Client",
+    "street": "Street",
+    "zipCode": "Zip Code",
+    "city": "City",
+    "voivodeship": "Voivodeship",
+    "country": "Country"
+  },
+  "rental": {
+    "title": "Rent a Car",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "totalDays": "Total Days",
+    "totalPrice": "Total Price",
+    "confirmRental": "Confirm Rental",
+    "rentalSuccess": "Car rented successfully!",
+    "insufficientCredits": "Insufficient credits for this rental"
+  },
+  "vehicleTypes": {
+    "suv": "SUV",
+    "minivan": "Minivan",
+    "sedan": "Sedan",
+    "hatchback": "Hatchback",
+    "coupe": "Coupe",
+    "convertible": "Convertible",
+    "truck": "Truck"
+  },
+  "gearboxTypes": {
+    "manual": "Manual",
+    "semi_auto": "Semi-automatic",
+    "automatic": "Automatic"
+  },
+  "engineTypes": {
+    "petrol": "Petrol",
+    "diesel": "Diesel",
+    "hybrid": "Hybrid",
+    "electric": "Electric"
+  },
+  "amenities": {
+    "air_conditioning": "Air Conditioning",
+    "audio_system": "Premium Audio System",
+    "big_trunk": "Large Boot",
+    "android_auto": "Android Auto",
+    "apple_carplay": "Apple CarPlay",
+    "heated_seats": "Heated Seats",
+    "sunroof": "Sunroof",
+    "gps": "GPS Navigation",
+    "bluetooth": "Bluetooth",
+    "usb_ports": "USB Ports"
+  }
+}

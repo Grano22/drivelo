@@ -1,0 +1,120 @@
+{
+  "app": {
+    "title": "Zarządzanie Flotą Samochodową",
+    "loading": "Ładowanie...",
+    "error": "Wystąpił błąd",
+    "success": "Sukces",
+    "cancel": "Anuluj",
+    "save": "Zapisz",
+    "delete": "Usuń",
+    "edit": "Edytuj",
+    "add": "Dodaj",
+    "search": "Szukaj",
+    "filter": "Filtruj",
+    "reset": "Resetuj",
+    "back": "Wstecz",
+    "next": "Dalej",
+    "previous": "Poprzedni"
+  },
+  "auth": {
+    "login": "Zaloguj się",
+    "logout": "Wyloguj się",
+    "email": "Email",
+    "password": "Hasło",
+    "invalidCredentials": "Nieprawidłowy email lub hasło",
+    "loginRequired": "Zaloguj się, aby uzyskać dostęp do tej strony"
+  },
+  "navigation": {
+    "dashboard": "Panel główny",
+    "cars": "Samochody",
+    "clients": "Klienci",
+    "profile": "Profil",
+    "settings": "Ustawienia"
+  },
+  "cars": {
+    "title": "Dostępne Samochody",
+    "brand": "Marka",
+    "model": "Model",
+    "year": "Rok",
+    "type": "Typ",
+    "capacity": "Pojemność",
+    "pricePerDay": "Cena za dzień",
+    "status": "Status",
+    "gearbox": "Skrzynia biegów",
+    "engine": "Silnik",
+    "amenities": "Wyposażenie",
+    "description": "Opis",
+    "mileage": "Przebieg",
+    "fuelConsumption": "Spalanie",
+    "maxRentalDays": "Maks. dni wynajmu",
+    "rentNow": "Wynajmij teraz",
+    "viewDetails": "Zobacz szczegóły",
+    "addCar": "Dodaj samochód",
+    "editCar": "Edytuj samochód",
+    "filters": "Filtry",
+    "clearFilters": "Wyczyść filtry",
+    "noResults": "Nie znaleziono samochodów spełniających kryteria"
+  },
+  "clients": {
+    "title": "Klienci",
+    "firstName": "Imię",
+    "lastName": "Nazwisko",
+    "email": "Email",
+    "phone": "Telefon",
+    "birthDate": "Data urodzenia",
+    "address": "Adres",
+    "credits": "Kredyty",
+    "status": "Status",
+    "createdAt": "Data utworzenia",
+    "updatedAt": "Data aktualizacji",
+    "addClient": "Dodaj klienta",
+    "editClient": "Edytuj klienta",
+    "street": "Ulica",
+    "zipCode": "Kod pocztowy",
+    "city": "Miasto",
+    "voivodeship": "Województwo",
+    "country": "Kraj"
+  },
+  "rental": {
+    "title": "Wynajmij samochód",
+    "startDate": "Data rozpoczęcia",
+    "endDate": "Data zakończenia",
+    "totalDays": "Łączna liczba dni",
+    "totalPrice": "Całkowita cena",
+    "confirmRental": "Potwierdź wynajem",
+    "rentalSuccess": "Samochód został pomyślnie wynajęty!",
+    "insufficientCredits": "Niewystarczająca liczba kredytów na ten wynajem"
+  },
+  "vehicleTypes": {
+    "suv": "SUV",
+    "minivan": "Van",
+    "sedan": "Sedan",
+    "hatchback": "Hatchback",
+    "coupe": "Coupe",
+    "convertible": "Kabriolet",
+    "truck": "Ciężarówka"
+  },
+  "gearboxTypes": {
+    "manual": "Manualna",
+    "semi_auto": "Półautomatyczna",
+    "automatic": "Automatyczna"
+  },
+  "engineTypes": {
+    "petrol": "Benzyna",
+    "diesel": "Diesel",
+    "hybrid": "Hybrydowy",
+    "electric": "Elektryczny"
+  },
+  "amenities": {
+    "air_conditioning": "Klimatyzacja",
+    "audio_system": "System audio premium",
+    "big_trunk": "Duży bagażnik",
+    "android_auto": "Android Auto",
+    "apple_carplay": "Apple CarPlay",
+    "heated_seats": "Ogrzewane fotele",
+    "sunroof": "Szyberdach",
+    "gps": "Nawigacja GPS",
+    "bluetooth": "Bluetooth",
+    "usb_ports": "Porty USB"
+  }
+}

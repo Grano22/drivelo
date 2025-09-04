@@ -1,0 +1,1 @@
+export type RecursiveRecord = { [key: string]: string | RecursiveRecord; };
