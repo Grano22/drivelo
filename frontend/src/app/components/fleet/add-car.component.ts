@@ -90,8 +90,8 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 [min]="1900"
                 [max]="currentYear + 1"
                 [useGrouping]="false"
-                styleClass="w-full"
-                inputStyleClass="input-field"
+                class="w-full"
+                inputclass="input-field"
               />
             </div>
 
@@ -108,7 +108,7 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 optionLabel="label"
                 optionValue="value"
                 [placeholder]="'cars.type' | translate"
-                styleClass="w-full"
+                class="w-full"
               >
                 <ng-template pTemplate="item" let-item>
                   <div class="flex items-center gap-2">
@@ -130,8 +130,8 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 formControlName="maxCapacity"
                 [min]="1"
                 [max]="20"
-                styleClass="w-full"
-                inputStyleClass="input-field"
+                class="w-full"
+                inputclass="input-field"
               />
             </div>
 
@@ -146,8 +146,8 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 currency="GBP"
                 locale="en-GB"
                 [min]="0"
-                styleClass="w-full"
-                inputStyleClass="input-field"
+                class="w-full"
+                inputclass="input-field"
               />
             </div>
 
@@ -164,7 +164,7 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 optionLabel="label"
                 optionValue="value"
                 [placeholder]="'cars.gearbox' | translate"
-                styleClass="w-full"
+                class="w-full"
               >
                 <ng-template pTemplate="item" let-item>
                   <div class="flex items-center gap-2">
@@ -190,7 +190,7 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 optionLabel="label"
                 optionValue="value"
                 [placeholder]="'cars.engine' | translate"
-                styleClass="w-full"
+                class="w-full"
               >
                 <ng-template pTemplate="item" let-item>
                   <div class="flex items-center gap-2">
@@ -211,8 +211,8 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 id="mileage"
                 formControlName="mileage"
                 [min]="0"
-                styleClass="w-full"
-                inputStyleClass="input-field"
+                class="w-full"
+                inputclass="input-field"
               />
             </div>
 
@@ -226,8 +226,8 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 [min]="0"
                 [minFractionDigits]="1"
                 [maxFractionDigits]="1"
-                styleClass="w-full"
-                inputStyleClass="input-field"
+                class="w-full"
+                inputclass="input-field"
               />
             </div>
 
@@ -240,8 +240,8 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
                 formControlName="maxRentalDays"
                 [min]="1"
                 [max]="365"
-                styleClass="w-full"
-                inputStyleClass="input-field"
+                class="w-full"
+                inputclass="input-field"
               />
             </div>
 
@@ -271,7 +271,7 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
               optionLabel="label"
               optionValue="value"
               [placeholder]="'cars.amenities' | translate"
-              styleClass="w-full"
+              class="w-full"
             />
           </div>
 

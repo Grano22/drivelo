@@ -55,7 +55,7 @@ import {Car, AmenityType, CarStatus} from '../../types/car.types';
                 [alt]="car.brand + ' ' + car.model"
                 width="100%"
                 height="300"
-                styleClass="rounded-lg object-cover w-full"
+                class="rounded-lg object-cover w-full"
               />
             </div>
 
@@ -96,7 +96,7 @@ import {Car, AmenityType, CarStatus} from '../../types/car.types';
                     <p-tag
                       [value]="getAmenityName(amenity)"
                       severity="info"
-                      styleClass="text-sm"
+                      class="text-sm"
                     />
                   }
                 </div>
@@ -131,8 +131,8 @@ import {Car, AmenityType, CarStatus} from '../../types/car.types';
                       [minDate]="minDate"
                       [maxDate]="maxStartDate"
                       dateFormat="yy-mm-dd"
-                      styleClass="w-full"
-                      inputStyleClass="input-field"
+                      class="w-full"
+                      inputclass="input-field"
                     />
                   </div>
 
@@ -146,8 +146,8 @@ import {Car, AmenityType, CarStatus} from '../../types/car.types';
                       [minDate]="minEndDate()"
                       [maxDate]="maxEndDate()"
                       dateFormat="yy-mm-dd"
-                      styleClass="w-full"
-                      inputStyleClass="input-field"
+                      class="w-full"
+                      inputclass="input-field"
                     />
                   </div>
                 </div>

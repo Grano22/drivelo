@@ -44,8 +44,7 @@ import { Car, CarStatus } from '../../types/car.types';
           [rows]="15"
           [showCurrentPageReport]="true"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} cars"
-          responsiveLayout="scroll"
-          styleClass="p-datatable-sm"
+          class="p-datatable-sm"
         >
           <ng-template pTemplate="header">
             <tr>
@@ -70,7 +69,7 @@ import { Car, CarStatus } from '../../types/car.types';
                   alt="Car image"
                   width="80"
                   height="60"
-                  styleClass="rounded-lg object-cover"
+                  class="rounded-lg object-cover"
                 />
               </td>
               <td class="font-medium">{{ car.brand }}</td>

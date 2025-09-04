@@ -71,7 +71,7 @@ import { Car, VehicleType, GearboxType, EngineType, AmenityType } from '../../ty
               optionLabel="label"
               optionValue="value"
               [placeholder]="'cars.type' | translate"
-              styleClass="w-full"
+              class="w-full"
             >
               <ng-template pTemplate="item" let-item>
                 <div class="flex items-center gap-2">
@@ -97,7 +97,7 @@ import { Car, VehicleType, GearboxType, EngineType, AmenityType } from '../../ty
               optionLabel="label"
               optionValue="value"
               [placeholder]="'cars.engine' | translate"
-              styleClass="w-full"
+              class="w-full"
             >
               <ng-template pTemplate="item" let-item>
                 <div class="flex items-center gap-2">
@@ -121,7 +121,7 @@ import { Car, VehicleType, GearboxType, EngineType, AmenityType } from '../../ty
               optionLabel="label"
               optionValue="value"
               [placeholder]="'cars.amenities' | translate"
-              styleClass="w-full"
+              class="w-full"
               [maxSelectedLabels]="2"
             />
           </div>
@@ -146,8 +146,7 @@ import { Car, VehicleType, GearboxType, EngineType, AmenityType } from '../../ty
           [rows]="10"
           [showCurrentPageReport]="true"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} cars"
-          responsiveLayout="scroll"
-          styleClass="p-datatable-sm"
+          class="p-datatable-sm"
         >
           <ng-template pTemplate="header">
             <tr>
@@ -173,7 +172,7 @@ import { Car, VehicleType, GearboxType, EngineType, AmenityType } from '../../ty
                   alt="Car image"
                   width="80"
                   height="60"
-                  styleClass="rounded-lg object-cover"
+                  class="rounded-lg object-cover"
                 />
               </td>
               <td class="font-medium">{{ car.brand }}</td>
@@ -199,14 +198,14 @@ import { Car, VehicleType, GearboxType, EngineType, AmenityType } from '../../ty
                     <p-tag
                       [value]="getAmenityIcon(amenity)"
                       severity="info"
-                      styleClass="text-xs"
+                      class="text-xs"
                     />
                   }
                   @if (car.amenities.length > 3) {
                     <p-tag
                       [value]="'+' + (car.amenities.length - 3)"
                       severity="secondary"
-                      styleClass="text-xs"
+                      class="text-xs"
                     />
                   }
                 </div>

@@ -74,7 +74,7 @@ import {User, UserRole, UserStatus} from '../../types/user.types';
               optionLabel="label"
               optionValue="value"
               [placeholder]="'clients.status' | translate"
-              styleClass="w-full"
+              class="w-full"
             >
               <ng-template pTemplate="item" let-item>
                 <div class="flex items-center gap-2">
@@ -107,8 +107,7 @@ import {User, UserRole, UserStatus} from '../../types/user.types';
           [rows]="10"
           [showCurrentPageReport]="true"
           currentPageReportTemplate="Showing {first} to {last} of {totalRecords} clients"
-          responsiveLayout="scroll"
-          styleClass="p-datatable-sm"
+          class="p-datatable-sm"
         >
           <ng-template pTemplate="header">
             <tr>

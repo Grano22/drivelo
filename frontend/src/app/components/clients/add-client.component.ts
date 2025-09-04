@@ -132,8 +132,8 @@ import { User, UserStatus, UserRole, CreateUserSchema } from '../../types/user.t
                 formControlName="birthDate"
                 dateFormat="yy-mm-dd"
                 [maxDate]="maxBirthDate"
-                styleClass="w-full"
-                inputStyleClass="input-field"
+                class="w-full"
+                inputclass="input-field"
               />
               @if (clientForm.get('birthDate')?.invalid && clientForm.get('birthDate')?.touched) {
                 <p-message severity="error" text="Birth date is required" class="mt-1" />
@@ -151,8 +151,8 @@ import { User, UserStatus, UserRole, CreateUserSchema } from '../../types/user.t
                 currency="GBP"
                 locale="en-GB"
                 [min]="0"
-                styleClass="w-full"
-                inputStyleClass="input-field"
+                class="w-full"
+                inputclass="input-field"
               />
             </div>
           </div>
