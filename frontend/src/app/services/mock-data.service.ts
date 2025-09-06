@@ -61,7 +61,7 @@ export class MockDataService {
       engineType: EngineType.ELECTRIC,
       amenities: [
         AmenityType.AIR_CONDITIONING,
-        AmenityType.AUDIO_SYSTEM,
+        AmenityType.AUDIO_7_1_SYSTEM,
         AmenityType.ANDROID_AUTO,
         AmenityType.APPLE_CARPLAY,
         AmenityType.HEATED_SEATS,
@@ -88,7 +88,7 @@ export class MockDataService {
       engineType: EngineType.DIESEL,
       amenities: [
         AmenityType.AIR_CONDITIONING,
-        AmenityType.AUDIO_SYSTEM,
+        AmenityType.AUDIO_7_1_SYSTEM,
         AmenityType.BIG_TRUNK,
         AmenityType.HEATED_SEATS,
         AmenityType.GPS,

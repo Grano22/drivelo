@@ -1,0 +1,10 @@
+{
+    "/service": {
+        "target": "http://localhost:8081/",
+        "secure": false
+    },
+    "/static": {
+        "target": "http://localhost:8081/",
+        "secure": false
+    }
+}

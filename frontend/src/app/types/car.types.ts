@@ -32,7 +32,7 @@ export enum CarStatus {
 
 export enum AmenityType {
   AIR_CONDITIONING = 'air_conditioning',
-  AUDIO_SYSTEM = 'audio_system',
+  AUDIO_7_1_SYSTEM = 'audio_7_1_system',
   BIG_TRUNK = 'big_trunk',
   ANDROID_AUTO = 'android_auto',
   APPLE_CARPLAY = 'apple_carplay',
@@ -50,7 +50,7 @@ export const AmenitySchema = z.object({
 });
 
 export const CarSchema = z.object({
-  id: z.string().uuid(),
+  id: z.uuid(),
   brand: z.string().min(1, 'Brand is required'),
   model: z.string().min(1, 'Model is required'),
   year: z.number().min(1900).max(new Date().getFullYear() + 1),

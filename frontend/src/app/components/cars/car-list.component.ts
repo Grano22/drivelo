@@ -316,7 +316,7 @@ export class CarListComponent {
   protected getAmenityIcon(amenity: AmenityType): string {
     const icons: Record<AmenityType, string> = {
       [AmenityType.AIR_CONDITIONING]: '❄️',
-      [AmenityType.AUDIO_SYSTEM]: '🎵',
+      [AmenityType.AUDIO_7_1_SYSTEM]: '🎵',
       [AmenityType.BIG_TRUNK]: '📦',
       [AmenityType.ANDROID_AUTO]: '📱',
       [AmenityType.APPLE_CARPLAY]: '🍎',
