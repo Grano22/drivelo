@@ -55,11 +55,6 @@ export const AppStore = signalStore(
     setUsers: (users: User[]) => {
       patchState(store, { users });
     },
-    addUser: (user: User) => {
-      patchState(store, (state) => ({
-        users: [...state.users, user]
-      }));
-    },
     setLoading: (loading: boolean) => {
       patchState(store, { loading });
     },

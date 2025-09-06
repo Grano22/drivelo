@@ -69,7 +69,6 @@ public class UserManagementControllerTest {
                     "email": "alice@example.com",
                     "phone": "123 456 789",
                     "birthDate": "2000-01-01",
-                    "address": "Moscow, Lenina street 1",
                     "status": "ACTIVE"
                 }
                 """)
@@ -90,7 +89,6 @@ public class UserManagementControllerTest {
                 "alice@example.com",
                 "123 456 789",
                 LocalDate.of(2000, 1, 1),
-                "Moscow, Lenina street 1",
                 UserStatus.ACTIVE
             )
         );
@@ -113,7 +111,6 @@ public class UserManagementControllerTest {
                 "email": "alice@example.com",
                 "phone": "123 456 789",
                 "birthDate": "2000-01-01",
-                "address": "Moscow, Lenina street 1",
                 "status": "ACTIVE"
             }
             """)
@@ -121,6 +118,33 @@ public class UserManagementControllerTest {
             .session(session)
         )
             .andExpect(status().isForbidden())
+        ;
+    }
+
+    @Test
+    public void saveCustomer_returns400_whenUnexpectedRequestProvided() throws Exception {
+        // Arrange
+        var session = SecurityScenario.afterPerformedLogin(UsersMother.CUSTOMER_EMAIL, UsersMother.CUSTOMER_PASSWORD, mockMvc);
+        doNothing().when(addCustomerUseCase).execute(any(AddCustomerRequest.class));
+
+        // Act & Assert
+        mockMvc.perform(
+            post("/service/user-management/v1/customer/add")
+                .content("""
+                {
+                    "firstName": "Alice",
+                    "lastName":"Dritakova",
+                    "password": "abcd12345",
+                    "email": "alice@example.com",
+                    "phone": "123 456 789",
+                    "birthDate": "2000-01-01",
+                    "status": "active"
+                }
+                """)
+                .contentType(MediaType.APPLICATION_JSON)
+                .session(session)
+            )
+            .andExpect(status().isBadRequest())
         ;
     }
 }

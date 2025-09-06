@@ -16,7 +16,6 @@ public record AddCustomerRequest(
     @NotNull @Email String email,
     String phone,
     @NotNull @Past LocalDate birthDate,
-    String address,
     @NotNull @OneOfEnum(UserStatus.class) UserStatus status
 ) {
 }

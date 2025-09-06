@@ -73,7 +73,8 @@
     "zipCode": "ZIP Code",
     "city": "City",
     "voivodeship": "State",
-    "country": "Country"
+    "country": "Country",
+    "password": "Password"
   },
   "rental": {
     "title": "Rent a Car",

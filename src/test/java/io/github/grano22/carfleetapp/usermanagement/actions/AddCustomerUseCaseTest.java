@@ -37,7 +37,6 @@ public class AddCustomerUseCaseTest {
             "anton@michaluk.org",
             "123 123 123",
             LocalDate.of(2003, 12, 11),
-            "",
             UserStatus.ACTIVE
         );
 

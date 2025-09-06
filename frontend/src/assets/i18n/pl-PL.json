@@ -73,7 +73,8 @@
     "zipCode": "Kod pocztowy",
     "city": "Miasto",
     "voivodeship": "Województwo",
-    "country": "Kraj"
+    "country": "Kraj",
+    "password": "Hasło"
   },
   "rental": {
     "title": "Wynajmij samochód",

@@ -1,7 +1,7 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {INTERNAL_API_BASE} from "../constants";
-import {User} from "../types/user.types";
+import {User, UserStatus} from "../types/user.types";
 
 export type AddCustomerPayload = {
     firstName: string;
@@ -9,15 +9,15 @@ export type AddCustomerPayload = {
     email: string;
     phone: string;
     birthDate: string;
-    address: string;
-    status: 'active' | 'inactive' | 'blocked';
+    status: UserStatus;
+    password: string;
 };
 
 @Injectable({ providedIn: 'root' })
-class CustomerInternalHttpClient {
+export class CustomerInternalHttpClient {
     readonly #http = inject(HttpClient);
 
     public addCustomer(payload: AddCustomerPayload) {
-        this.#http.post(INTERNAL_API_BASE + '/user-management/v1', payload);
+        return this.#http.post(INTERNAL_API_BASE + '/user-management/v1/customer/add', payload);
     }
 }
