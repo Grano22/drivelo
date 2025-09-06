@@ -1,6 +1,6 @@
 package io.github.grano22.carfleetapp.usermanagement.contract;
 
-public record UserDetailsResponse(
+public record UserDetailsView(
     String firstName,
     String lastName,
     String email,
@@ -8,8 +8,6 @@ public record UserDetailsResponse(
     String birthDate,
     Integer credits,
     String status,
-    String[] roles,
-    String[] permissions,
     String createdAt,
     String updatedAt
 ) {

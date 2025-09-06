@@ -24,6 +24,18 @@ public class UsersMother {
     public final static String CUSTOMER_EMAIL = "customer@drivelo.org";
     public final static String CUSTOMER_PASSWORD = "OPDFYUou4534";
 
+    public final static String SECOND_CUSTOMER_UUID = "f9415b6f-53b5-4fea-adea-4e11f4c0cb49";
+    public final static String SECOND_CUSTOMER_EMAIL = "customer.second@drivelo.org";
+    public final static String SECOND_CUSTOMER_PASSWORD = "iY^OD87fdd";
+
+    public final static String INACTIVE_CUSTOMER_UUID = "f9415b6f-53b5-4fea-adea-4e11f4c0cb4A";
+    public final static String INACTIVE_CUSTOMER_EMAIL = "customer.inactive@drivelo.org";
+    public final static String INACTIVE_CUSTOMER_PASSWORD = "O&DY8768f7d";
+
+    public final static String BLOCKED_CUSTOMER_UUID = "f9415b6f-53b5-4fea-adea-4e11f4c0cb4B";
+    public final static String BLOCKED_CUSTOMER_EMAIL = "customer.blocked@drivelo.org";
+    public final static String BLOCKED_CUSTOMER_PASSWORD = "oYFD8i7dfy6k";
+
     private static final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
     public static User bornAdmin() {
@@ -71,6 +83,54 @@ public class UsersMother {
             Set.of(UserRole.CUSTOMER),
             LocalDateTime.of(2025, 1, 1, 1, 1),
             LocalDateTime.of(2025, 1, 1, 1, 1)
+        );
+    }
+
+    public static User bornSecondCustomer() {
+        return new User(
+            UUID.fromString(SECOND_CUSTOMER_UUID),
+            "Monica",
+            "luvour",
+            SECOND_CUSTOMER_EMAIL,
+            encoder.encode(SECOND_CUSTOMER_PASSWORD),
+            "111 111 111",
+            LocalDate.of(1996, 1, 1),
+            UserStatus.ACTIVE,
+            Set.of(UserRole.CUSTOMER),
+            LocalDateTime.of(2020, 1, 1, 1, 1),
+            LocalDateTime.of(2020, 1, 1, 1, 1)
+        );
+    }
+
+    public static User bornInactiveCustomer() {
+        return new User(
+            UUID.fromString(INACTIVE_CUSTOMER_UUID),
+            "Gosia",
+            "Maniecko",
+            INACTIVE_CUSTOMER_EMAIL,
+            encoder.encode(INACTIVE_CUSTOMER_PASSWORD),
+            "222 222 222",
+            LocalDate.of(1996, 1, 1),
+            UserStatus.INACTIVE,
+            Set.of(UserRole.CUSTOMER),
+            LocalDateTime.of(2020, 1, 1, 1, 1),
+            LocalDateTime.of(2020, 1, 1, 1, 1)
+        );
+    }
+
+    public static User bornBlockedCustomer() {
+        return new User(
+            UUID.fromString(BLOCKED_CUSTOMER_UUID),
+            "Albert",
+            "Miracus",
+            BLOCKED_CUSTOMER_EMAIL,
+            encoder.encode(BLOCKED_CUSTOMER_PASSWORD),
+            "000 000 000",
+            LocalDate.of(1996, 1, 1),
+            UserStatus.BLOCKED,
+            Set.of(UserRole.CUSTOMER),
+            LocalDateTime.of(2020, 1, 1, 1, 1),
+            LocalDateTime.of(2020, 1, 1, 1, 1)
         );
     }
 }

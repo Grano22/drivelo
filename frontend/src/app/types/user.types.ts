@@ -19,18 +19,23 @@ export enum UserStatus {
   BLOCKED = 'BLOCKED',
 }
 
-export const UserSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.email('Invalid email format'),
-  phone: z.string(),
-  birthDate: z.iso.date(),
-  credits: z.number().min(0, 'Credits must be non-negative'),
-  status: z.enum(UserStatus),
-  roles: z.array(z.enum(UserRole)),
-  permissions: z.array(z.enum(UserPermission)),
-  createdAt: z.iso.datetime(),
-  updatedAt: z.iso.datetime(),
+export const UserDetailsSchema = z.object({
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
+    email: z.email('Invalid email format'),
+    phone: z.string(),
+    birthDate: z.iso.date(),
+    credits: z.number().min(0, 'Credits must be non-negative'),
+    status: z.enum(UserStatus),
+    createdAt: z.iso.datetime(),
+    updatedAt: z.iso.datetime(),
+});
+
+export const CustomersSchema = z.array(UserDetailsSchema);
+
+export const UserSchema = UserDetailsSchema.extend({
+    roles: z.array(z.enum(UserRole)),
+    permissions: z.array(z.enum(UserPermission))
 });
 
 export const CreateUserSchema = UserSchema.omit({ 
@@ -39,5 +44,8 @@ export const CreateUserSchema = UserSchema.omit({
   updatedAt: true 
 });
 
+export type UserDetails = z.infer<typeof UserDetailsSchema>;
 export type User = z.infer<typeof UserSchema>;
 export type CreateUser = z.infer<typeof CreateUserSchema>;
+
+export type Customers = z.infer<typeof CustomersSchema>;

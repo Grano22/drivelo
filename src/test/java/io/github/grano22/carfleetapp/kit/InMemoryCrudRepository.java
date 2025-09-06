@@ -99,6 +99,30 @@ public abstract class InMemoryCrudRepository<T, ID> implements CrudRepository<T,
         return List.copyOf(this.store.values());
     }
 
+    public @NonNull Iterable<T> findAllBy(Map<String, Object> criteria) {
+        return store.values()
+            .stream()
+            .filter(entity -> {
+                for (Map.Entry<String, Object> entry : criteria.entrySet()) {
+                    String fieldName = entry.getKey();
+                    Object expectedValue = entry.getValue();
+
+                    PropertyAccessor accessor = accessorsByColumnName.get(fieldName);
+
+                    if (accessor == null) return false;
+                    Object actualValue = accessor.get(entity);
+
+                    if (!Objects.equals(expectedValue, actualValue)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            })
+            .toList()
+        ;
+    }
+
     @Override
     public @NonNull Iterable<T> findAllById(@NonNull Iterable<ID> is) {
         return StreamSupport.stream(is.spliterator(), false)

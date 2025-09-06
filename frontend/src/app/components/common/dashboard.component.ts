@@ -118,7 +118,7 @@ import { UserRole } from '../../types/user.types';
 export class DashboardComponent {
     protected readonly store = inject(AppStore);
     readonly customersCount = computed(() =>
-        this.store.users().filter(u => u.roles?.includes(UserRole.CUSTOMER)).length
+        this.store.customers().length
     );
 
 }

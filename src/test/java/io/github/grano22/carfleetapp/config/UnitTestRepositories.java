@@ -6,6 +6,8 @@ import io.github.grano22.carfleetapp.carrental.infrastructure.persistance.CarRen
 import io.github.grano22.carfleetapp.carrental.infrastructure.persistance.CarRentalRepository;
 import io.github.grano22.carfleetapp.kit.InMemoryCrudRepository;
 import io.github.grano22.carfleetapp.usermanagement.User;
+import io.github.grano22.carfleetapp.usermanagement.domain.UserRole;
+import io.github.grano22.carfleetapp.usermanagement.domain.UserStatus;
 import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
 import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.context.annotation.Bean;
@@ -14,9 +16,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.core.Ordered;
 import org.springframework.test.context.ActiveProfiles;
 
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Configuration(proxyBeanMethods = false)
 @ActiveProfiles("test")
@@ -30,6 +30,11 @@ public class UnitTestRepositories {
         @Override
         public Optional<User> findByEmail(String email) {
             return findBy(Map.of("email", email));
+        }
+
+        @Override
+        public Collection<User> findByRoles(Set<UserRole> roles) {
+            return (Collection<User>)findAllBy(Map.of("roles", roles));
         }
     }
 

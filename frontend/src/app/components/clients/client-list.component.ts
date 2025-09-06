@@ -10,7 +10,8 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TagModule } from 'primeng/tag';
 import { AppStore } from '../../store/app.store';
 import { MockDataService } from '../../services/mock-data.service';
-import {User, UserRole, UserStatus} from '../../types/user.types';
+import {CustomersSchema, User, UserRole, UserStatus} from '../../types/user.types';
+import {CustomerInternalHttpClient} from "../../services/customer-internal-http-client";
 
 @Component({
   selector: 'app-client-list',
@@ -115,7 +116,6 @@ import {User, UserRole, UserStatus} from '../../types/user.types';
               <th>{{ 'clients.lastName' | translate }}</th>
               <th>{{ 'clients.email' | translate }}</th>
               <th>{{ 'clients.phone' | translate }}</th>
-              <th>{{ 'clients.address' | translate }}</th>
               <th>{{ 'clients.credits' | translate }}</th>
               <th>{{ 'clients.status' | translate }}</th>
               <th>{{ 'clients.createdAt' | translate }}</th>
@@ -129,9 +129,6 @@ import {User, UserRole, UserStatus} from '../../types/user.types';
               <td class="font-medium">{{ client.lastName }}</td>
               <td>{{ client.email }}</td>
               <td>{{ client.phone }}</td>
-              <td class="text-sm">
-                {{ client.address.city }}, {{ client.address.country }}
-              </td>
               <td class="font-semibold text-primary-600 dark:text-primary-400">
                 £{{ client.credits }}
               </td>
@@ -169,7 +166,7 @@ import {User, UserRole, UserStatus} from '../../types/user.types';
 })
 export class ClientListComponent {
   protected readonly store = inject(AppStore);
-  readonly #mockDataService = inject(MockDataService);
+  readonly #customerInternalHttpClient = inject(CustomerInternalHttpClient);
   readonly #fb = inject(NonNullableFormBuilder);
 
   protected readonly filterForm = this.#fb.group({
@@ -191,9 +188,7 @@ export class ClientListComponent {
   }
 
   protected readonly filteredClients = computed(() => {
-    const users = this.store.users().filter(user => 
-      user.roles.includes(UserRole.CUSTOMER)
-    );
+    const users = this.store.customers();
     const filters = this.filterForm.getRawValue();
 
     return users.filter(user => {
@@ -234,7 +229,14 @@ export class ClientListComponent {
   }
 
   #initializeData(): void {
-    //const users = this.#mockDataService.getUsers();
-    this.store.setUsers([]);
+    this.#customerInternalHttpClient.getCustomers().subscribe({
+        next: (rawResponse) => {
+            const customers = CustomersSchema.parse(rawResponse);
+            this.store.setCustomers(customers);
+        },
+        error: (error) => {
+            console.error('Error fetching customers:', error);
+        }
+    });
   }
 }
