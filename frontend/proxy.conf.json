@@ -1,4 +1,8 @@
 {
+    "/auth": {
+        "target": "http://localhost:8081/",
+        "secure": false
+    },
     "/service": {
         "target": "http://localhost:8081/",
         "secure": false

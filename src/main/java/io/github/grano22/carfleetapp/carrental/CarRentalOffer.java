@@ -28,7 +28,7 @@ public class CarRentalOffer {
     @Column(name = "min_rental_days")
     private int minRentalDays;
 
-    @Column(name = "min_rental_days")
+    @Column(name = "max_rental_days")
     private int maxRentalDays;
 
     @Column(name = "stauts")

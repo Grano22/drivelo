@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.Clock;
 import java.time.LocalDateTime;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class AddCustomerUseCase {
@@ -27,13 +28,13 @@ public class AddCustomerUseCase {
     public void execute(@NonNull AddCustomerRequest request) {
         LocalDateTime now = LocalDateTime.now(clock);
         User newCustomer = User.builder()
+            .id(UUID.randomUUID())
             .password(passwordEncoder.encode(request.password()))
             .status(request.status())
             .firstName(request.firstName())
             .lastName(request.lastName())
             .email(request.email())
             .phone(request.phone())
-            .address(request.address())
             .birthDate(request.birthDate())
             .roles(Set.of(UserRole.CUSTOMER))
             .createdAt(now)

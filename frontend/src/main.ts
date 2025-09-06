@@ -13,6 +13,7 @@ import {PreloadedTranslateLoader} from "./app/i18n/PreloadedTranslateLoader";
 import {TRANSLATIONS} from "./app/i18n/translations";
 import {providePrimeNG} from "primeng/config";
 import Aura from '@primeuix/themes/aura';
+import {provideHttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-root',
@@ -48,6 +49,7 @@ export class App {
 void bootstrapApplication(App, {
   providers: [
     provideRouter(routes),
+    provideHttpClient(),
     provideAnimations(),
     providePrimeNG({
         theme: {

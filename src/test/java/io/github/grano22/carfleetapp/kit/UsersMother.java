@@ -35,7 +35,6 @@ public class UsersMother {
             encoder.encode(ADMIN_PASSWORD),
             "123 123 123",
             LocalDate.of(2000, 1, 1),
-            "Server",
             UserStatus.ACTIVE,
             Set.of(UserRole.ADMIN),
             LocalDateTime.of(2023, 1, 1, 1, 1),
@@ -52,9 +51,8 @@ public class UsersMother {
             encoder.encode(MANAGER_PASSWORD),
             "321 321 321",
             LocalDate.of(2000, 1, 1),
-            "Server",
             UserStatus.ACTIVE,
-            Set.of(UserRole.ADMIN),
+            Set.of(UserRole.MANAGER),
             LocalDateTime.of(2024, 1, 1, 1, 1),
             LocalDateTime.of(2024, 1, 1, 1, 1)
         );
@@ -69,9 +67,8 @@ public class UsersMother {
             encoder.encode(CUSTOMER_PASSWORD),
             "213 213 213",
             LocalDate.of(2000, 1, 1),
-            "Server",
             UserStatus.ACTIVE,
-            Set.of(UserRole.ADMIN),
+            Set.of(UserRole.CUSTOMER),
             LocalDateTime.of(2025, 1, 1, 1, 1),
             LocalDateTime.of(2025, 1, 1, 1, 1)
         );

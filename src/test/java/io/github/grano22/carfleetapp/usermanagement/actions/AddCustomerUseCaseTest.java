@@ -1,27 +1,21 @@
 package io.github.grano22.carfleetapp.usermanagement.actions;
 
-import io.github.grano22.carfleetapp.config.UnitTestRepositories;
-import io.github.grano22.carfleetapp.usermanagement.domain.UserRole;
-import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
 import io.github.grano22.carfleetapp.kit.AdjustableClock;
 import io.github.grano22.carfleetapp.usermanagement.contract.AddCustomerRequest;
+import io.github.grano22.carfleetapp.usermanagement.domain.UserRole;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserStatus;
+import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-//@Import(UnitTestRepositories.class)
 public class AddCustomerUseCaseTest {
     @Autowired
     AddCustomerUseCase addCustomerUseCase;
@@ -58,7 +52,6 @@ public class AddCustomerUseCaseTest {
                 assertThat(user.getLastName()).isEqualTo("Michaluk");
                 assertThat(user.getEmail()).isEqualTo("anton@michaluk.org");
                 assertThat(user.getPhone()).isEqualTo("123 123 123");
-                assertThat(user.getAddress()).isEqualTo("");
                 assertThat(user.getBirthDate()).isEqualTo(LocalDate.of(2003, 12, 11));
                 assertThat(user.getRoles()).isEqualTo(Set.of(UserRole.CUSTOMER));
                 assertThat(user.getStatus()).isEqualTo(UserStatus.ACTIVE);

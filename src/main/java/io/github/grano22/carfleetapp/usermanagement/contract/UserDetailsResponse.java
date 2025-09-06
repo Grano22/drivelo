@@ -6,8 +6,11 @@ public record UserDetailsResponse(
     String email,
     String phone,
     String birthDate,
-    String address,
+    Integer credits,
     String status,
-    String[] roles
+    String[] roles,
+    String[] permissions,
+    String createdAt,
+    String updatedAt
 ) {
 }

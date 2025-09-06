@@ -234,7 +234,7 @@ export class ClientListComponent {
   }
 
   #initializeData(): void {
-    const users = this.#mockDataService.getUsers();
-    this.store.setUsers(users);
+    //const users = this.#mockDataService.getUsers();
+    this.store.setUsers([]);
   }
 }

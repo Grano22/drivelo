@@ -3,14 +3,15 @@ version: '3'
 tasks:
     start-dev-db:
         cmds:
-            - docker-compose -profile db up
+            - docker compose up
         env:
+            COMPOSE_PROFILES: db
             DB_USER: admin
             DB_PASSWORD: admin
 
     start-dev:
         cmds:
-            - docker-compose -profile db,backend,frontend up
+            - docker compose -profile db,backend,frontend up
         env:
             DB_USER: admin
             DB_PASSWORD: admin

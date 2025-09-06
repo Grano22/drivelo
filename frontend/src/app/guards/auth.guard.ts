@@ -35,6 +35,6 @@ export const managerGuard: CanActivateFn = () => {
     return true;
   }
 
-  router.navigate(['/unauthorized']);
+  void router.navigate(['/unauthorized']);
   return false;
 };

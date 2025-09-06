@@ -64,7 +64,7 @@ public class AuthTest {
 
         assertEquals(
             """
-            {"firstName":"Admin","lastName":"Root","email":"admin@drivelo.org","phone":"123 123 123","birthDate":"2000-01-01","address":"Server","status":"ACTIVE","roles":["ADMIN"]}""",
+            {"firstName":"Admin","lastName":"Root","email":"admin@drivelo.org","phone":"123 123 123","birthDate":"2000-01-01","credits":0,"status":"ACTIVE","roles":["ADMIN"],"permissions":["ADD_CUSTOMERS","RENT_CARS","VIEW_CUSTOMERS","VIEW_OFFERS"],"createdAt":"2023-01-01T01:01:00.000Z","updatedAt":"2023-01-01T01:01:00.000Z"}""",
             currentUserDetails.getResponse().getContentAsString()
         );
     }

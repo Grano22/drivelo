@@ -4,49 +4,6 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType } fro
 
 @Injectable({ providedIn: 'root' })
 export class MockDataService {
-  #mockUsers: User[] = [
-    {
-      id: 'customer-1',
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john.doe@example.com',
-      phone: '+44123456789',
-      birthDate: '1990-05-15',
-      address: {
-        street: '123 Main Street',
-        zipCode: '00-123',
-        city: 'London',
-        voivodeship: 'Greater London',
-        country: 'United Kingdom',
-      },
-      credits: 500,
-      status: UserStatus.ACTIVE,
-      roles: [UserRole.CUSTOMER],
-      createdAt: '2024-01-15T10:00:00Z',
-      updatedAt: '2024-12-15T10:00:00Z',
-    },
-    {
-      id: 'manager-1',
-      firstName: 'Sarah',
-      lastName: 'Johnson',
-      email: 'sarah.johnson@fleetmanager.com',
-      phone: '+44987654321',
-      birthDate: '1985-08-20',
-      address: {
-        street: '456 Business Avenue',
-        zipCode: '12-345',
-        city: 'Manchester',
-        voivodeship: 'Greater Manchester',
-        country: 'United Kingdom',
-      },
-      credits: 0,
-      status: UserStatus.ACTIVE,
-      roles: [UserRole.MANAGER],
-      createdAt: '2024-01-10T09:00:00Z',
-      updatedAt: '2024-12-10T09:00:00Z',
-    },
-  ];
-
   #mockCars: Car[] = [
     {
       id: 'car-1',
@@ -127,16 +84,8 @@ export class MockDataService {
     },
   ];
 
-  getUsers(): User[] {
-    return structuredClone(this.#mockUsers);
-  }
-
   getCars(): Car[] {
     return structuredClone(this.#mockCars);
-  }
-
-  getUserById(id: string): User | null {
-    return structuredClone(this.#mockUsers.find(user => user.id === id) || null);
   }
 
   getCarById(id: string): Car | null {

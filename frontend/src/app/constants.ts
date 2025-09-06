@@ -1,1 +1,1 @@
-export const INTERNAL_API_BASE = '/services';
+export const INTERNAL_API_BASE = '/service';

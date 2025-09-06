@@ -292,11 +292,6 @@ export class AddClientComponent {
     phone: ['', [Validators.required, Validators.pattern(/^\+?\d{9,15}$/)]],
     birthDate: [null as Date | null, [Validators.required]],
     credits: [0, [Validators.required, Validators.min(0)]],
-    street: ['', [Validators.required]],
-    zipCode: ['', [Validators.required, Validators.pattern(/^\d{2}-\d{3}$/)]],
-    city: ['', [Validators.required]],
-    voivodeship: ['', [Validators.required]],
-    country: ['United Kingdom', [Validators.required]],
   });
 
   // protected clearFilters(): void {
@@ -316,21 +311,14 @@ export class AddClientComponent {
       const formValue = this.clientForm.getRawValue();
       
       const newUser: User = {
-        id: crypto.randomUUID(),
         firstName: formValue.firstName,
         lastName: formValue.lastName,
         email: formValue.email,
         phone: formValue.phone,
         birthDate: formValue.birthDate!.toISOString().split('T')[0],
-        address: {
-          street: formValue.street,
-          zipCode: formValue.zipCode,
-          city: formValue.city,
-          voivodeship: formValue.voivodeship,
-          country: formValue.country,
-        },
-        credits: formValue.credits,
+          permissions: [],
         status: UserStatus.ACTIVE,
+        credits: formValue.credits,
         roles: [UserRole.CUSTOMER],
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -343,7 +331,7 @@ export class AddClientComponent {
 
       await new Promise(resolve => setTimeout(resolve, 1000));
 
-      this.store.addUser({ ...validatedUser, id: newUser.id, createdAt: newUser.createdAt, updatedAt: newUser.updatedAt });
+      this.store.addUser({ ...validatedUser, createdAt: newUser.createdAt, updatedAt: newUser.updatedAt });
       this.#router.navigate(['/clients']);
     } catch (error) {
       this.errorMessage.set('Failed to create client. Please check all fields.');
