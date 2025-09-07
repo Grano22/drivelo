@@ -50,4 +50,12 @@ export class CarFleetInternalHttpClients {
     public addCarWithRentalOffer(payload: AddCarWithRentalOfferPayload) {
         return this.#http.post(INTERNAL_API_BASE + '/car-fleet-management/v1/car-with-rental-offer/save/', payload, { withCredentials: true });
     }
+
+    public getCarsForRent() {
+        return this.#http.get(INTERNAL_API_BASE + '/car-fleet/v1/for_rent', { withCredentials: true }).pipe(
+            switchMap(rawResponse => {
+                return CarRentalOffersSchema.parseAsync(rawResponse);
+            })
+        );
+    }
 }

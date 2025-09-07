@@ -12,6 +12,7 @@ import {ImageModule} from 'primeng/image';
 import {TagModule} from 'primeng/tag';
 import {AppStore} from '../../store/app.store';
 import {AmenityType, CarStatus} from '../../types/car.types';
+import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-http-clients";
 
 @Component({
   selector: 'app-car-rental',
@@ -218,6 +219,7 @@ import {AmenityType, CarStatus} from '../../types/car.types';
 })
 export class CarRentalComponent {
   protected readonly store = inject(AppStore);
+  readonly #carFleetInternalHttpClients = inject(CarFleetInternalHttpClients);
   readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
   readonly #fb = inject(NonNullableFormBuilder);

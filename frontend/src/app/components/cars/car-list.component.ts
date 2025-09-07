@@ -12,6 +12,7 @@ import { TagModule } from 'primeng/tag';
 import { ImageModule } from 'primeng/image';
 import { AppStore } from '../../store/app.store';
 import { CarRentalOffer, VehicleType, GearboxType, EngineType, AmenityType } from '../../types/car.types';
+import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-http-clients";
 
 @Component({
   selector: 'app-car-list',
@@ -242,6 +243,7 @@ import { CarRentalOffer, VehicleType, GearboxType, EngineType, AmenityType } fro
 })
 export class CarListComponent {
   protected readonly store = inject(AppStore);
+  readonly #carFleetInternalHttpClients = inject(CarFleetInternalHttpClients);
   readonly #fb = inject(NonNullableFormBuilder);
 
   protected readonly filterForm = this.#fb.group({
@@ -328,6 +330,13 @@ export class CarListComponent {
   }
 
   #initializeData(): void {
-    this.store.setCars([]);
+      this.#carFleetInternalHttpClients.getCarsForRent().subscribe({
+          next: (cars) => {
+            this.store.setCars(cars);
+          },
+          error: (error) => {
+            console.error('Error fetching cars for rent:', error);
+          }
+      });
   }
 }

@@ -1,9 +1,11 @@
 package io.github.grano22.carfleetapp.config;
 
 import io.github.grano22.carfleetapp.carfleetmanagement.Car;
+import io.github.grano22.carfleetapp.carfleetmanagement.domain.CarStatus;
 import io.github.grano22.carfleetapp.carfleetmanagement.infrastructure.persistance.CarRepository;
 import io.github.grano22.carfleetapp.carrental.CarRental;
 import io.github.grano22.carfleetapp.carrental.CarRentalOffer;
+import io.github.grano22.carfleetapp.carrental.domain.CarRentalOfferStatus;
 import io.github.grano22.carfleetapp.carrental.infrastructure.persistance.CarRentalOfferRepository;
 import io.github.grano22.carfleetapp.carrental.infrastructure.persistance.CarRentalRepository;
 import io.github.grano22.carfleetapp.kit.InMemoryCrudRepository;
@@ -49,6 +51,17 @@ public class UnitTestRepositories {
     public static class InMemoryCarRentalOfferRepository extends InMemoryCrudRepository<CarRentalOffer, UUID> implements CarRentalOfferRepository {
         public InMemoryCarRentalOfferRepository() {
             super(CarRentalOffer.class, UUID.class);
+        }
+
+        @Override
+        public Collection<CarRentalOffer> findAllByStatusAndCar_Status(CarRentalOfferStatus status, CarStatus carStatus) {
+            return findBy(Map.of("status", status))
+                .stream()
+                .filter(carRentalOffer -> carRentalOffer.getCar()
+                .getStatus()
+                .equals(carStatus))
+                .toList()
+            ;
         }
     }
 

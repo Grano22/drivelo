@@ -7,8 +7,13 @@ import java.util.Set;
 @Getter
 public enum UserRole {
     ADMIN('*'),
-    MANAGER(Set.of(UserPermission.ADD_CUSTOMERS, UserPermission.VIEW_CUSTOMERS)),
-    CUSTOMER(Set.of(UserPermission.VIEW_OFFERS, UserPermission.RENT_CARS))
+    MANAGER(Set.of(
+        UserPermission.ADD_CUSTOMERS,
+        UserPermission.VIEW_CUSTOMERS,
+        UserPermission.ADD_CAR_RENTAL_OFFERS,
+        UserPermission.VIEW_CAR_RENTAL_OFFERS
+    )),
+    CUSTOMER(Set.of(UserPermission.VIEW_AVAILABLE_CAR_OFFERS, UserPermission.RENT_CARS))
     ;
 
     private final Set<UserPermission> permissions;
