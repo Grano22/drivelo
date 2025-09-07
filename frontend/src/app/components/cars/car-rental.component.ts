@@ -326,6 +326,7 @@ export class CarRentalComponent {
 
             this.#carFleetInternalHttpClients.rentCar(selectedCar.id, startDate, endDate).subscribe({
                 next: async () => {
+                    alert('Car rented successfully!');
                     await this.#router.navigate(['/cars'], {
                         queryParams: {success: 'rental.rentalSuccess'}
                     });

@@ -1,11 +1,12 @@
 import { computed, inject } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import {User, UserDetails, UserRole} from '../types/user.types';
-import {CarRentalOffer, CarStatus} from '../types/car.types';
+import {CarRental, CarRentalOffer, CarStatus} from '../types/car.types';
 
 export interface AppState {
   currentUser: User | null;
   cars: CarRentalOffer[];
+  rentedCars: CarRental[],
   customers: UserDetails[];
   loading: boolean;
   error: string | null;
@@ -16,6 +17,7 @@ export interface AppState {
 const initialState: AppState = {
   currentUser: null,
   cars: [],
+  rentedCars: [],
   customers: [],
   loading: false,
   error: null,
@@ -51,6 +53,9 @@ export const AppStore = signalStore(
           car.id === carId ? { ...car, ...updates } : car
         )
       }));
+    },
+    setRentedCars: (rentedCars: CarRental[]) => {
+      patchState(store, { rentedCars });
     },
     setCustomers: (customers: UserDetails[]) => {
       patchState(store, { customers });

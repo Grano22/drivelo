@@ -1,7 +1,15 @@
 import {inject, Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {switchMap} from "rxjs";
-import {AmenityType, CarRentalOffersSchema, CarStatus, EngineType, GearboxType, VehicleType} from "../types/car.types";
+import {
+    AmenityType,
+    CarRentalOffersSchema,
+    CarRentalsSchema,
+    CarStatus,
+    EngineType,
+    GearboxType,
+    VehicleType
+} from "../types/car.types";
 import {INTERNAL_API_BASE} from "../constants";
 import {CarRentalOfferStatus} from "../types/car-rental-offer.types";
 
@@ -55,6 +63,14 @@ export class CarFleetInternalHttpClients {
         return this.#http.get(INTERNAL_API_BASE + '/car-fleet/v1/for_rent', { withCredentials: true }).pipe(
             switchMap(rawResponse => {
                 return CarRentalOffersSchema.parseAsync(rawResponse);
+            })
+        );
+    }
+
+    public getRentedCars() {
+        return this.#http.get(INTERNAL_API_BASE + '/car-rental/v1/rented', { withCredentials: true }).pipe(
+            switchMap(rawResponse => {
+                return CarRentalsSchema.parseAsync(rawResponse);
             })
         );
     }

@@ -53,7 +53,9 @@
     "editCar": "Edit Car",
     "filters": "Filters",
     "clearFilters": "Clear Filters",
-    "noResults": "No cars found matching your criteria"
+    "noResults": "No cars found matching your criteria",
+    "returnNow": "Return now",
+    "rented_title": "Rented cars"
   },
   "clients": {
     "title": "Clients",

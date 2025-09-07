@@ -21,6 +21,7 @@ import org.springframework.core.Ordered;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.*;
+import java.util.stream.StreamSupport;
 
 @Configuration(proxyBeanMethods = false)
 @ActiveProfiles("test")
@@ -68,6 +69,14 @@ public class UnitTestRepositories {
     public static class InMemoryCarRentalRepository extends InMemoryCrudRepository<CarRental, UUID> implements CarRentalRepository {
         public InMemoryCarRentalRepository() {
             super(CarRental.class, UUID.class);
+        }
+
+        @Override
+        public Collection<CarRental> findAllByUser_Id(UUID userId) {
+            return StreamSupport.stream(findAll().spliterator(), false)
+                .filter(carRental -> carRental.getUser().getId().equals(userId))
+                .toList()
+            ;
         }
     }
 

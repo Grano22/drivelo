@@ -53,7 +53,9 @@
     "editCar": "Edytuj samochód",
     "filters": "Filtry",
     "clearFilters": "Wyczyść filtry",
-    "noResults": "Nie znaleziono samochodów spełniających kryteria"
+    "noResults": "Nie znaleziono samochodów spełniających kryteria",
+    "returnNow": "Zwróć teraz",
+    "rented_title": "Wynajęte auta"
   },
   "clients": {
     "title": "Klienci",
