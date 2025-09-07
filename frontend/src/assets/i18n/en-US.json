@@ -87,24 +87,26 @@
     "insufficientCredits": "Insufficient credits for this rental"
   },
   "vehicleTypes": {
-    "suv": "SUV",
-    "minivan": "Minivan",
-    "sedan": "Sedan",
-    "hatchback": "Hatchback",
-    "coupe": "Coupe",
-    "convertible": "Convertible",
-    "truck": "Truck"
+    "SUV": "SUV",
+    "MINIVAN": "Minivan",
+    "SEDAN": "Sedan",
+    "HATCHBACK": "Hatchback",
+    "COUPE": "Coupe",
+    "CONVERTIBLE": "Convertible",
+    "LIMOUSINE": "Limousine"
   },
   "gearboxTypes": {
-    "manual": "Manual",
-    "semi_auto": "Semi-automatic",
-    "automatic": "Automatic"
+    "MANUAL": "Manual",
+    "SEMI_AUTO": "Semi-automatic",
+    "AUTOMATIC": "Automatic"
   },
   "engineTypes": {
-    "petrol": "Gas",
-    "diesel": "Diesel",
-    "hybrid": "Hybrid",
-    "electric": "Electric"
+    "PETROL": "Gas",
+    "DIESEL": "Diesel",
+    "HYBRID": "Hybrid",
+    "ELECTRIC": "Electric",
+    "LPG": "LPG",
+    "FUEL_CELL_PLUGIN": "FUEL_CELL_PLUGIN"
   },
   "amenities": {
     "air_conditioning": "Air Conditioning",

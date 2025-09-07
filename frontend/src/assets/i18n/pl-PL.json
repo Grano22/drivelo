@@ -87,24 +87,26 @@
     "insufficientCredits": "Niewystarczająca liczba kredytów na ten wynajem"
   },
   "vehicleTypes": {
-    "suv": "SUV",
-    "minivan": "Van",
-    "sedan": "Sedan",
-    "hatchback": "Hatchback",
-    "coupe": "Coupe",
-    "convertible": "Kabriolet",
-    "truck": "Ciężarówka"
+    "SUV": "SUV",
+    "MINIVAN": "Van",
+    "SEDAN": "Sedan",
+    "HATCHBACK": "Hatchback",
+    "COUPE": "Coupe",
+    "CONVERTIBLE": "Kabriolet",
+    "LIMOUSINE": "Limuzyna"
   },
   "gearboxTypes": {
-    "manual": "Manualna",
-    "semi_auto": "Półautomatyczna",
-    "automatic": "Automatyczna"
+    "MANUAL": "Manualna",
+    "SEMI_AUTO": "Półautomatyczna",
+    "AUTOMATIC": "Automatyczna"
   },
   "engineTypes": {
-    "petrol": "Benzyna",
-    "diesel": "Diesel",
-    "hybrid": "Hybrydowy",
-    "electric": "Elektryczny"
+    "PETROL": "Benzyna",
+    "DIESEL": "Diesel",
+    "HYBRID": "Hybrydowy",
+    "ELECTRIC": "Elektryczny",
+    "LPG": "LPG",
+    "FUEL_CELL_PLUGIN": "FUEL_CELL_PLUGIN"
   },
   "amenities": {
     "air_conditioning": "Klimatyzacja",

@@ -58,4 +58,12 @@ export class CarFleetInternalHttpClients {
             })
         );
     }
+
+    public rentCar(offerId: string, from: Date, to: Date) {
+        return this.#http.post(INTERNAL_API_BASE + '/car-rental/v1/rent', { offerId, from, to }, { withCredentials: true});
+    }
+
+    public returnCar(rentalId: string) {
+        return this.#http.post(INTERNAL_API_BASE + '/car-rental/v1/return', { rentalId }, { withCredentials: true});
+    }
 }

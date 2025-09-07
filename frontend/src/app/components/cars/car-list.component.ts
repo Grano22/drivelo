@@ -212,12 +212,12 @@ import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-htt
               </td>
               <td>
                 <div class="flex gap-2">
-                  <button
-                    [routerLink]="['/cars', car.id]"
-                    class="btn-secondary text-sm py-1 px-3"
-                  >
-                    {{ 'cars.viewDetails' | translate }}
-                  </button>
+<!--                  <button-->
+<!--                    [routerLink]="['/cars', car.id]"-->
+<!--                    class="btn-secondary text-sm py-1 px-3"-->
+<!--                  >-->
+<!--                    {{ 'cars.viewDetails' | translate }}-->
+<!--                  </button>-->
                   <button
                     [routerLink]="['/rental', car.id]"
                     class="btn-primary text-sm py-1 px-3"
