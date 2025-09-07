@@ -149,7 +149,6 @@ export class FleetManagementComponent {
   #initializeData() {
       this.#carFleetInternalHttpClients.getCarRentalOffers().subscribe({
           next: carRentalOffers => {
-              console.log('Fetched car rental offers:', carRentalOffers);
               this.store.setCars(carRentalOffers);
           },
           error: error => {

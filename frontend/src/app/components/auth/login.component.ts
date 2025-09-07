@@ -59,7 +59,7 @@ import { AuthService } from '../../services/auth.service';
                 formControlName="password"
                 [placeholder]="'auth.password' | translate"
                 class="w-full"
-                inputclass="input-field"
+                inputStyleClass="input-field w-full"
                 [toggleMask]="true"
                 [feedback]="false"
                 autocomplete="current-password"

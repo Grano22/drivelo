@@ -16,4 +16,8 @@ export class AuthInternalHttpClient {
 
         return this.#http.post('/auth/login', body.toString(), { headers });
     }
+
+    public logout() {
+        return this.#http.post('/auth/logout', {}, { withCredentials: true });
+    }
 }

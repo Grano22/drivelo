@@ -42,7 +42,15 @@ export class AuthService {
     logout(): void {
         this.#store.setUser(null);
         this.isAuthenticated.set(false);
-        this.#router.navigate(['/login']);
+        localStorage.removeItem('currentUser');
+        this.#authInternalHttpClient.logout().subscribe({
+            next: async _ => {
+                await this.#router.navigate(['/login']);
+            },
+            error: async _ => {
+                alert("Logout failed. Please try again.");
+            }
+        });
     }
 
     hasPermission(permission: UserRole): boolean {
@@ -52,14 +60,11 @@ export class AuthService {
 
     checkAutoLogin(): void {
         const lastLoggedAt = localStorage.getItem('lastLoggedIn');
-        console.log(lastLoggedAt);
-        console.log(lastLoggedAt && new Date(lastLoggedAt).getTime() + 1000 * 60 * 60 * 24 * 7, new Date().getTime());
 
         if (lastLoggedAt && new Date(lastLoggedAt).getTime() + 1000 * 60 * 60 * 24 * 7 < new Date().getTime()) {
             return;
         }
 
-        console.log('Auto login');
         this.#userDetailsInternalHttpClient.getCurrentUserDetails().subscribe({
             next: (user) => {
                 this.#store.setUser(user);
