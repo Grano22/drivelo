@@ -69,7 +69,8 @@ public class UserManagementControllerTest {
                     "email": "alice@example.com",
                     "phone": "123 456 789",
                     "birthDate": "2000-01-01",
-                    "status": "ACTIVE"
+                    "status": "ACTIVE",
+                    "credits": 100
                 }
                 """)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -86,10 +87,11 @@ public class UserManagementControllerTest {
             "Alice",
             "Dritakova",
             "abcd12345",
-                "alice@example.com",
-                "123 456 789",
-                LocalDate.of(2000, 1, 1),
-                UserStatus.ACTIVE
+            "alice@example.com",
+            "123 456 789",
+            LocalDate.of(2000, 1, 1),
+            UserStatus.ACTIVE,
+             100D
             )
         );
     }
@@ -111,7 +113,8 @@ public class UserManagementControllerTest {
                 "email": "alice@example.com",
                 "phone": "123 456 789",
                 "birthDate": "2000-01-01",
-                "status": "ACTIVE"
+                "status": "ACTIVE",
+                "credits": 100
             }
             """)
             .contentType(MediaType.APPLICATION_JSON)
@@ -138,7 +141,8 @@ public class UserManagementControllerTest {
                     "email": "alice@example.com",
                     "phone": "123 456 789",
                     "birthDate": "2000-01-01",
-                    "status": "active"
+                    "status": "active",
+                    "credits": 100
                 }
                 """)
                 .contentType(MediaType.APPLICATION_JSON)

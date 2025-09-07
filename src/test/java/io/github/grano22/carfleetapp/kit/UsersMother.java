@@ -6,6 +6,7 @@ import io.github.grano22.carfleetapp.usermanagement.domain.UserStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -47,6 +48,7 @@ public class UsersMother {
             encoder.encode(ADMIN_PASSWORD),
             "123 123 123",
             LocalDate.of(2000, 1, 1),
+            BigDecimal.valueOf(100D),
             UserStatus.ACTIVE,
             Set.of(UserRole.ADMIN),
             LocalDateTime.of(2023, 1, 1, 1, 1),
@@ -63,6 +65,7 @@ public class UsersMother {
             encoder.encode(MANAGER_PASSWORD),
             "321 321 321",
             LocalDate.of(2000, 1, 1),
+            BigDecimal.valueOf(100D),
             UserStatus.ACTIVE,
             Set.of(UserRole.MANAGER),
             LocalDateTime.of(2024, 1, 1, 1, 1),
@@ -79,6 +82,7 @@ public class UsersMother {
             encoder.encode(CUSTOMER_PASSWORD),
             "213 213 213",
             LocalDate.of(2000, 1, 1),
+            BigDecimal.valueOf(300D),
             UserStatus.ACTIVE,
             Set.of(UserRole.CUSTOMER),
             LocalDateTime.of(2025, 1, 1, 1, 1),
@@ -95,6 +99,7 @@ public class UsersMother {
             encoder.encode(SECOND_CUSTOMER_PASSWORD),
             "111 111 111",
             LocalDate.of(1996, 1, 1),
+            BigDecimal.valueOf(0D),
             UserStatus.ACTIVE,
             Set.of(UserRole.CUSTOMER),
             LocalDateTime.of(2020, 1, 1, 1, 1),
@@ -111,6 +116,7 @@ public class UsersMother {
             encoder.encode(INACTIVE_CUSTOMER_PASSWORD),
             "222 222 222",
             LocalDate.of(1996, 1, 1),
+            BigDecimal.valueOf(10D),
             UserStatus.INACTIVE,
             Set.of(UserRole.CUSTOMER),
             LocalDateTime.of(2020, 1, 1, 1, 1),
@@ -127,6 +133,7 @@ public class UsersMother {
             encoder.encode(BLOCKED_CUSTOMER_PASSWORD),
             "000 000 000",
             LocalDate.of(1996, 1, 1),
+            BigDecimal.valueOf(30D),
             UserStatus.BLOCKED,
             Set.of(UserRole.CUSTOMER),
             LocalDateTime.of(2020, 1, 1, 1, 1),
