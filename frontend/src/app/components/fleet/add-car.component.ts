@@ -1,18 +1,20 @@
-import { Component, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, NonNullableFormBuilder, Validators } from '@angular/forms';
+import {Component, inject, signal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router, RouterLink} from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { TextareaModule } from 'primeng/textarea';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { MultiSelectModule } from 'primeng/multiselect';
-import { MessageModule } from 'primeng/message';
-import { CardModule } from 'primeng/card';
-import { AppStore } from '../../store/app.store';
-import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, CreateCarSchema } from '../../types/car.types';
+import {TranslateModule} from '@ngx-translate/core';
+import {ButtonModule} from 'primeng/button';
+import {InputTextModule} from 'primeng/inputtext';
+import {TextareaModule} from 'primeng/textarea';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {MultiSelectModule} from 'primeng/multiselect';
+import {MessageModule} from 'primeng/message';
+import {CardModule} from 'primeng/card';
+import {AppStore} from '../../store/app.store';
+import {AmenityType, CarStatus, EngineType, GearboxType, VehicleType} from '../../types/car.types';
+import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-http-clients";
+import {CarRentalOfferStatus} from "../../types/car-rental-offer.types";
 
 @Component({
   selector: 'app-add-car',
@@ -319,6 +321,7 @@ import { Car, VehicleType, GearboxType, EngineType, CarStatus, AmenityType, Crea
 })
 export class AddCarComponent {
   protected readonly store = inject(AppStore);
+  readonly #carFleetInternalHttpClients = inject(CarFleetInternalHttpClients);
   readonly #router = inject(Router);
   readonly #fb = inject(NonNullableFormBuilder);
 
@@ -397,39 +400,39 @@ export class AddCarComponent {
 
     try {
       const formValue = this.carForm.getRawValue();
-      
-      const newCar: Car = {
-        id: crypto.randomUUID(),
-        brand: formValue.brand,
-        model: formValue.model,
-        year: formValue.year,
-        vehicleType: formValue.vehicleType!,
-        maxCapacity: formValue.maxCapacity,
-        pricePerDay: formValue.pricePerDay,
-        status: CarStatus.AVAILABLE,
-        gearboxType: formValue.gearboxType!,
-        engineType: formValue.engineType!,
-        amenities: formValue.amenities,
-        description: formValue.description || undefined,
-        imageUrl: formValue.imageUrl || undefined,
-        mileage: formValue.mileage,
-        fuelConsumption: formValue.fuelConsumption,
-        maxRentalDays: formValue.maxRentalDays,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      };
 
-      const validatedCar = CreateCarSchema.parse({
-        ...newCar,
-        id: undefined,
-        createdAt: undefined,
-        updatedAt: undefined,
+      this.#carFleetInternalHttpClients.addCarWithRentalOffer({
+          car: {
+              name: `${formValue.brand} ${formValue.model}`,
+              brand: formValue.brand,
+              model: formValue.model,
+              year: formValue.year,
+              type: formValue.vehicleType!,
+              maxCapacity: formValue.maxCapacity,
+              status: CarStatus.AVAILABLE,
+              gearboxType: formValue.gearboxType!,
+              engineType: formValue.engineType!,
+              amenities: formValue.amenities,
+              description: /*formValue.description || */'',
+              imageUrl: formValue.imageUrl || undefined,
+              mileage: formValue.mileage,
+              fuelConsumption: formValue.fuelConsumption
+          },
+          rentalOfferDetails: {
+              pricePerDay: formValue.pricePerDay,
+              status: CarRentalOfferStatus.ACTIVE,
+              maxRentalDays: formValue.maxRentalDays,
+              description: formValue.description
+          }
+      }).subscribe({
+          next: () => {
+              this.errorMessage.set(null);
+              this.#router.navigate(['/fleet-management']);
+          },
+          error: (error) => {
+              this.errorMessage.set(error.error.message);
+          }
       });
-
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      this.store.addCar(newCar);
-      this.#router.navigate(['/fleet-management']);
     } catch (error) {
       this.errorMessage.set('Failed to create car. Please check all fields.');
     } finally {

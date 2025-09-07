@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -42,6 +43,7 @@ public class DevDbFeeder {
             .password(passwordEncoder.encode("iosa8i676fJYT&Iu6dd"))
             .phone("123 123 123")
             .birthDate(LocalDate.of(2022, 1, 1))
+            .credits(new BigDecimal(100))
             .status(UserStatus.ACTIVE)
             .roles(Set.of(UserRole.ADMIN))
             .createdAt(LocalDateTime.now())
@@ -56,6 +58,7 @@ public class DevDbFeeder {
             .password(passwordEncoder.encode("iiysaiuuIYT&^d5sd"))
             .phone("321 321 321")
             .birthDate(LocalDate.of(2023, 1, 1))
+            .credits(new BigDecimal(100))
             .status(UserStatus.ACTIVE)
             .roles(Set.of(UserRole.MANAGER))
             .createdAt(LocalDateTime.now())
@@ -70,6 +73,7 @@ public class DevDbFeeder {
             .password(passwordEncoder.encode("os7dy9dssdKHahdk"))
             .phone("231 231 231")
             .birthDate(LocalDate.of(2022, 1, 1))
+            .credits(new BigDecimal(1000))
             .status(UserStatus.ACTIVE)
             .roles(Set.of(UserRole.CUSTOMER))
             .createdAt(LocalDateTime.now())

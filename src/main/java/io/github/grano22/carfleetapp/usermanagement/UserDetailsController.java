@@ -1,10 +1,8 @@
 package io.github.grano22.carfleetapp.usermanagement;
 
-import io.github.grano22.carfleetapp.shared.ViewFormatters;
 import io.github.grano22.carfleetapp.usermanagement.assembler.CustomersListingAssembler;
 import io.github.grano22.carfleetapp.usermanagement.contract.AccountOwnerDetailsResponse;
 import io.github.grano22.carfleetapp.usermanagement.contract.UserDetailsView;
-import io.github.grano22.carfleetapp.usermanagement.domain.UserRole;
 import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/service/user/v1")
@@ -44,7 +41,7 @@ public class UserDetailsController {
             freshUserData.getEmail(),
             freshUserData.getPhone(),
             freshUserData.getBirthDate().toString(),
-            0,
+            freshUserData.getCredits().doubleValue(),
             freshUserData.getStatus().name(),
             freshUserData.getRoles().stream()
                 .map(Enum::name)

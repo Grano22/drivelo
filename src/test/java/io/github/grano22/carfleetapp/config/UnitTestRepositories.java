@@ -1,5 +1,7 @@
 package io.github.grano22.carfleetapp.config;
 
+import io.github.grano22.carfleetapp.carfleetmanagement.Car;
+import io.github.grano22.carfleetapp.carfleetmanagement.infrastructure.persistance.CarRepository;
 import io.github.grano22.carfleetapp.carrental.CarRental;
 import io.github.grano22.carfleetapp.carrental.CarRentalOffer;
 import io.github.grano22.carfleetapp.carrental.infrastructure.persistance.CarRentalOfferRepository;
@@ -38,6 +40,12 @@ public class UnitTestRepositories {
         }
     }
 
+    public static class InMemoryCarRepository extends InMemoryCrudRepository<Car, UUID> implements CarRepository {
+        public InMemoryCarRepository() {
+            super(Car.class, UUID.class);
+        }
+    }
+
     public static class InMemoryCarRentalOfferRepository extends InMemoryCrudRepository<CarRentalOffer, UUID> implements CarRentalOfferRepository {
         public InMemoryCarRentalOfferRepository() {
             super(CarRentalOffer.class, UUID.class);
@@ -53,10 +61,13 @@ public class UnitTestRepositories {
     @Primary
     @Bean
     public UserRepository userRepository() {
-        System.out.println("Creating in-memory user repository");
-        System.out.flush();
-
         return new InMemoryUserRepository();
+    }
+
+    @Primary
+    @Bean
+    public CarRepository carRepository() {
+        return new InMemoryCarRepository();
     }
 
     @Primary

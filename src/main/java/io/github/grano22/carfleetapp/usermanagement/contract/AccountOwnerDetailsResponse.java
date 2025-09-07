@@ -6,7 +6,7 @@ public record AccountOwnerDetailsResponse(
     String email,
     String phone,
     String birthDate,
-    Integer credits,
+    double credits,
     String status,
     String[] roles,
     String[] permissions,

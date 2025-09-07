@@ -9,7 +9,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { TagModule } from 'primeng/tag';
 import { AppStore } from '../../store/app.store';
-import { MockDataService } from '../../services/mock-data.service';
 import {CustomersSchema, User, UserRole, UserStatus} from '../../types/user.types';
 import {CustomerInternalHttpClient} from "../../services/customer-internal-http-client";
 

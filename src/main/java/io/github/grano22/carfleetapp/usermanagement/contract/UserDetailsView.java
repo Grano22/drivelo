@@ -6,7 +6,7 @@ public record UserDetailsView(
     String email,
     String phone,
     String birthDate,
-    Integer credits,
+    double credits,
     String status,
     String createdAt,
     String updatedAt

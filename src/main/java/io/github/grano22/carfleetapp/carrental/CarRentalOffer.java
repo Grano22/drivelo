@@ -17,19 +17,20 @@ import java.util.UUID;
 @AllArgsConstructor
 public class CarRentalOffer {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     private Car car;
 
     @Column(name = "price_per_day", nullable = false)
     private double pricePerDay;
 
     @Column(name = "min_rental_days")
-    private int minRentalDays;
+    private Integer minRentalDays;
 
     @Column(name = "max_rental_days")
-    private int maxRentalDays;
+    private Integer maxRentalDays;
 
     @Column(name = "stauts")
     @Enumerated(EnumType.STRING)
@@ -40,6 +41,9 @@ public class CarRentalOffer {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    private String description;
 
     public CarRentalOffer() {}
 }

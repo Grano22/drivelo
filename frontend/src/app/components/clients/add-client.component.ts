@@ -259,7 +259,8 @@ export class AddClientComponent {
                 phone: formValue.phone,
                 birthDate: formValue.birthDate!.toISOString().split('T')[0],
                 status: UserStatus.ACTIVE,
-                password: formValue.password
+                password: formValue.password,
+                credits: formValue.credits,
             }).subscribe({
                 next: async (response) => {
                     this.loading.set(false);

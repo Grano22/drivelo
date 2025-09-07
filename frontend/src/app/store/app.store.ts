@@ -1,11 +1,11 @@
 import { computed, inject } from '@angular/core';
 import { patchState, signalStore, withComputed, withMethods, withState } from '@ngrx/signals';
 import {User, UserDetails, UserRole} from '../types/user.types';
-import { Car } from '../types/car.types';
+import {CarRentalOffer, CarStatus} from '../types/car.types';
 
 export interface AppState {
   currentUser: User | null;
-  cars: Car[];
+  cars: CarRentalOffer[];
   customers: UserDetails[];
   loading: boolean;
   error: string | null;
@@ -30,22 +30,22 @@ export const AppStore = signalStore(
         isAuthenticated: computed<boolean>(() => !!currentUser()),
         isCustomer: computed<boolean>(() => currentUser()?.roles.includes(UserRole.CUSTOMER) || false),
         isManager: computed<boolean>(() => currentUser()?.roles.includes(UserRole.MANAGER) || false),
-        availableCars: computed<Car[]>(() => cars().filter(car => car.status === 'available')),
+        availableCars: computed<CarRentalOffer[]>(() => cars().filter(car => car.carStatus === CarStatus.AVAILABLE)),
     })),
 
     withMethods((store) => ({
     setUser: (user: User | null) => {
       patchState(store, { currentUser: user });
     },
-    setCars: (cars: Car[]) => {
+    setCars: (cars: CarRentalOffer[]) => {
       patchState(store, { cars });
     },
-    addCar: (car: Car) => {
+    addCar: (car: CarRentalOffer) => {
       patchState(store, (state) => ({
         cars: [...state.cars, car]
       }));
     },
-    updateCar: (carId: string, updates: Partial<Car>) => {
+    updateCar: (carId: string, updates: Partial<CarRentalOffer>) => {
       patchState(store, (state) => ({
         cars: state.cars.map(car => 
           car.id === carId ? { ...car, ...updates } : car

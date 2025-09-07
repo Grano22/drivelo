@@ -1,6 +1,5 @@
 package io.github.grano22.carfleetapp.usermanagement.contract;
 
-import io.github.grano22.carfleetapp.shared.validation.OneOfEnum;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserStatus;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
@@ -16,6 +15,7 @@ public record AddCustomerRequest(
     @NotNull @Email String email,
     String phone,
     @NotNull @Past LocalDate birthDate,
-    @NotNull @OneOfEnum(UserStatus.class) UserStatus status
+    @NotNull UserStatus status,
+    Double credits
 ) {
 }

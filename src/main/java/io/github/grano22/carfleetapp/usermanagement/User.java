@@ -11,6 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -47,6 +48,9 @@ public class User implements UserDetails {
 
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
+
+    @Column(precision = 12, scale = 2, nullable = false)
+    private BigDecimal credits;
 
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)

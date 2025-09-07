@@ -11,8 +11,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { TagModule } from 'primeng/tag';
 import { ImageModule } from 'primeng/image';
 import { AppStore } from '../../store/app.store';
-import { MockDataService } from '../../services/mock-data.service';
-import { Car, VehicleType, GearboxType, EngineType, AmenityType } from '../../types/car.types';
+import { CarRentalOffer, VehicleType, GearboxType, EngineType, AmenityType } from '../../types/car.types';
 
 @Component({
   selector: 'app-car-list',
@@ -243,7 +242,6 @@ import { Car, VehicleType, GearboxType, EngineType, AmenityType } from '../../ty
 })
 export class CarListComponent {
   protected readonly store = inject(AppStore);
-  readonly #mockDataService = inject(MockDataService);
   readonly #fb = inject(NonNullableFormBuilder);
 
   protected readonly filterForm = this.#fb.group({
@@ -330,7 +328,6 @@ export class CarListComponent {
   }
 
   #initializeData(): void {
-    const cars = this.#mockDataService.getCars();
-    this.store.setCars(cars);
+    this.store.setCars([]);
   }
 }

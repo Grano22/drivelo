@@ -11,6 +11,7 @@ export type AddCustomerPayload = {
     birthDate: string;
     status: UserStatus;
     password: string;
+    credits?: number;
 };
 
 @Injectable({ providedIn: 'root' })

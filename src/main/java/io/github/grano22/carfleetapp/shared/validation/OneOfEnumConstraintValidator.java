@@ -5,7 +5,7 @@ import jakarta.validation.ConstraintValidatorContext;
 
 import java.util.Arrays;
 
-public class OneOfEnumConstraintValidator implements ConstraintValidator<OneOfEnum, Enum<?>> {
+public class OneOfEnumConstraintValidator implements ConstraintValidator<OneOfEnum, String> {
     private String[] acceptedNames;
 
     @Override
@@ -17,9 +17,9 @@ public class OneOfEnumConstraintValidator implements ConstraintValidator<OneOfEn
     }
 
     @Override
-    public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
+    public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value == null) return true;
 
-        return Arrays.asList(acceptedNames).contains(value.name());
+        return Arrays.asList(acceptedNames).contains(value);
     }
 }

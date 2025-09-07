@@ -8,8 +8,10 @@ import lombok.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -30,6 +32,7 @@ public class AddCustomerUseCase {
         User newCustomer = User.builder()
             .id(UUID.randomUUID())
             .password(passwordEncoder.encode(request.password()))
+            .credits(new BigDecimal(Optional.ofNullable(request.credits()).orElse(0D)))
             .status(request.status())
             .firstName(request.firstName())
             .lastName(request.lastName())

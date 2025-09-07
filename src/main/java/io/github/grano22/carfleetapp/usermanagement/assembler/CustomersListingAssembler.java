@@ -24,7 +24,7 @@ public class CustomersListingAssembler {
                     user.getEmail(),
                     user.getPhone(),
                     user.getBirthDate().toString(),
-                    0,
+                    user.getCredits().doubleValue(),
                     user.getStatus().name(),
                     ViewFormatters.formatDateTime(user.getCreatedAt()),
                     ViewFormatters.formatDateTime(user.getUpdatedAt())

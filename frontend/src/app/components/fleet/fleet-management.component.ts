@@ -7,7 +7,8 @@ import { ButtonModule } from 'primeng/button';
 import { TagModule } from 'primeng/tag';
 import { ImageModule } from 'primeng/image';
 import { AppStore } from '../../store/app.store';
-import { Car, CarStatus } from '../../types/car.types';
+import { CarRentalOffer, CarStatus } from '../../types/car.types';
+import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-http-clients";
 
 @Component({
   selector: 'app-fleet-management',
@@ -38,7 +39,7 @@ import { Car, CarStatus } from '../../types/car.types';
 
       <div class="card">
         <p-table
-          [value]="store.cars()"
+          [value]="filteredCarOffers()"
           [loading]="store.loading()"
           [paginator]="true"
           [rows]="15"
@@ -116,6 +117,15 @@ import { Car, CarStatus } from '../../types/car.types';
 })
 export class FleetManagementComponent {
   protected readonly store = inject(AppStore);
+  readonly #carFleetInternalHttpClients = inject(CarFleetInternalHttpClients);
+
+    protected readonly filteredCarOffers = computed(() => {
+        return this.store.cars();
+    });
+
+  constructor() {
+      this.#initializeData();
+  }
 
   protected getStatusSeverity(status: CarStatus): 'success' | 'info' | 'warning' | 'danger' {
     switch (status) {
@@ -134,5 +144,17 @@ export class FleetManagementComponent {
 
   protected formatNumber(num: number): string {
     return new Intl.NumberFormat('en-GB').format(num);
+  }
+
+  #initializeData() {
+      this.#carFleetInternalHttpClients.getCarRentalOffers().subscribe({
+          next: carRentalOffers => {
+              console.log('Fetched car rental offers:', carRentalOffers);
+              this.store.setCars(carRentalOffers);
+          },
+          error: error => {
+              console.error('Error fetching car rental offers:', error);
+          }
+      });
   }
 }

@@ -1,18 +1,17 @@
-import { Component, computed, inject, signal, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, NonNullableFormBuilder, Validators } from '@angular/forms';
-import {Router, ActivatedRoute, RouterModule} from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { ButtonModule } from 'primeng/button';
-import { DatePickerModule } from 'primeng/datepicker';
-import { InputNumberModule } from 'primeng/inputnumber';
-import { MessageModule } from 'primeng/message';
-import { CardModule } from 'primeng/card';
-import { ImageModule } from 'primeng/image';
-import { TagModule } from 'primeng/tag';
-import { AppStore } from '../../store/app.store';
-import { MockDataService } from '../../services/mock-data.service';
-import {Car, AmenityType, CarStatus} from '../../types/car.types';
+import {Component, computed, inject, signal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NonNullableFormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ActivatedRoute, Router, RouterModule} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
+import {ButtonModule} from 'primeng/button';
+import {DatePickerModule} from 'primeng/datepicker';
+import {InputNumberModule} from 'primeng/inputnumber';
+import {MessageModule} from 'primeng/message';
+import {CardModule} from 'primeng/card';
+import {ImageModule} from 'primeng/image';
+import {TagModule} from 'primeng/tag';
+import {AppStore} from '../../store/app.store';
+import {AmenityType, CarStatus} from '../../types/car.types';
 
 @Component({
   selector: 'app-car-rental',
@@ -219,7 +218,6 @@ import {Car, AmenityType, CarStatus} from '../../types/car.types';
 })
 export class CarRentalComponent {
   protected readonly store = inject(AppStore);
-  readonly #mockDataService = inject(MockDataService);
   readonly #router = inject(Router);
   readonly #route = inject(ActivatedRoute);
   readonly #fb = inject(NonNullableFormBuilder);
@@ -230,7 +228,8 @@ export class CarRentalComponent {
   protected readonly carId = signal<string | null>(null);
   protected readonly selectedCar = computed(() => {
     const id = this.carId();
-    return id ? this.#mockDataService.getCarById(id) : null;
+
+    return this.store.cars().find(car => car.id === id) || null;
   });
 
   protected readonly minDate = new Date();
@@ -251,9 +250,10 @@ export class CarRentalComponent {
     const startDate = this.rentalForm.get('startDate')?.value;
     
     if (!car || !startDate) return this.maxStartDate;
-    
-    const maxDate = new Date(startDate.getTime() + car.maxRentalDays * 24 * 60 * 60 * 1000);
-    return maxDate;
+
+    if (!car.maxRentalDays) return null;
+
+    return new Date(startDate.getTime() + car.maxRentalDays * 24 * 60 * 60 * 1000);
   });
 
   protected readonly totalDays = computed(() => {
@@ -304,7 +304,7 @@ export class CarRentalComponent {
 
       await new Promise(resolve => setTimeout(resolve, 1500));
 
-      this.store.updateCar(this.selectedCar()!.id, { status: CarStatus.RENTED });
+      this.store.updateCar(this.selectedCar()!.id, { carStatus: CarStatus.RENTED });
       
       this.#router.navigate(['/cars'], {
         queryParams: { success: 'rental.rentalSuccess' }

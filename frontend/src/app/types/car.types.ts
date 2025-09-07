@@ -1,46 +1,49 @@
 import { z } from 'zod';
+import {CarRentalOfferStatus} from "./car-rental-offer.types";
 
 export enum VehicleType {
-  SUV = 'suv',
-  MINIVAN = 'minivan',
-  SEDAN = 'sedan',
-  HATCHBACK = 'hatchback',
-  COUPE = 'coupe',
-  CONVERTIBLE = 'convertible',
-  TRUCK = 'truck',
+  SUV = 'SUV',
+  MINIVAN = 'MINIVAN',
+  SEDAN = 'SEDAN',
+  HATCHBACK = 'HATCHBACK',
+  COUPE = 'COUPE',
+  CONVERTIBLE = 'CONVERTIBLE',
+  LIMOUSINE = 'LIMOUSINE'
 }
 
 export enum GearboxType {
-  MANUAL = 'manual',
-  SEMI_AUTO = 'semi_auto',
-  AUTOMATIC = 'automatic',
+  MANUAL = 'MANUAL',
+  SEMI_AUTO = 'SEMI_AUTO',
+  AUTOMATIC = 'AUTOMATIC',
 }
 
 export enum EngineType {
-  PETROL = 'petrol',
-  DIESEL = 'diesel',
-  HYBRID = 'hybrid',
-  ELECTRIC = 'electric',
+    DIESEL = 'DIESEL',
+    GASOLINE = 'GASOLINE',
+    HYBRID = 'HYBRID',
+    ELECTRIC = 'HYBRID',
+    LPG = 'LPG',
+    FUEL_CELL_PLUGIN = 'FUEL_CELL_PLUGIN'
 }
 
 export enum CarStatus {
-  AVAILABLE = 'available',
-  RENTED = 'rented',
-  MAINTENANCE = 'maintenance',
-  OUT_OF_SERVICE = 'out_of_service',
+  AVAILABLE = 'AVAILABLE',
+  RENTED = 'RENTED',
+  MAINTENANCE = 'MAINTENANCE',
+  OUT_OF_SERVICE = 'OUT_OF_SERVICE',
 }
 
 export enum AmenityType {
-  AIR_CONDITIONING = 'air_conditioning',
-  AUDIO_7_1_SYSTEM = 'audio_7_1_system',
-  BIG_TRUNK = 'big_trunk',
-  ANDROID_AUTO = 'android_auto',
-  APPLE_CARPLAY = 'apple_carplay',
-  HEATED_SEATS = 'heated_seats',
-  SUNROOF = 'sunroof',
-  GPS = 'gps',
-  BLUETOOTH = 'bluetooth',
-  USB_PORTS = 'usb_ports',
+  AIR_CONDITIONING = 'AIR_CONDITIONING',
+  AUDIO_7_1_SYSTEM = 'AUDIO_7_1_SYSTEM',
+  BIG_TRUNK = 'BIG_TRUNK',
+  ANDROID_AUTO = 'ANDROID_AUTO',
+  APPLE_CARPLAY = 'APPLE_CARPLAY',
+  HEATED_SEATS = 'HEATED_SEATS',
+  SUNROOF = 'SUNROOF',
+  GPS = 'GPS',
+  BLUETOOTH = 'BLUETOOTH',
+  USB_PORTS = 'USB_PORTS',
 }
 
 export const AmenitySchema = z.object({
@@ -49,7 +52,7 @@ export const AmenitySchema = z.object({
   icon: z.string(),
 });
 
-export const CarSchema = z.object({
+export const CarRentalOfferSchema = z.object({
   id: z.uuid(),
   brand: z.string().min(1, 'Brand is required'),
   model: z.string().min(1, 'Model is required'),
@@ -57,20 +60,23 @@ export const CarSchema = z.object({
   vehicleType: z.enum(VehicleType),
   maxCapacity: z.number().min(1).max(20),
   pricePerDay: z.number().min(0, 'Price must be non-negative'),
-  status: z.enum(CarStatus),
+  status: z.enum(CarRentalOfferStatus),
+  carStatus: z.enum(CarStatus),
   gearboxType: z.enum(GearboxType),
   engineType: z.enum(EngineType),
   amenities: z.array(z.enum(AmenityType)),
-  description: z.string().optional(),
-  imageUrl: z.string().url().optional(),
+  description: z.string(),
+  carDescription: z.string(),
+  imageUrl: z.string().url().nullable().optional(),
   mileage: z.number().min(0),
   fuelConsumption: z.number().min(0),
-  maxRentalDays: z.number().min(1),
+  minRentalDays: z.number().min(1).nullable().optional(),
+  maxRentalDays: z.number().min(1).nullable().optional(),
   createdAt: z.iso.datetime(),
   updatedAt: z.iso.datetime(),
 });
 
-export const CreateCarSchema = CarSchema.omit({ 
+export const CreateCarSchema = CarRentalOfferSchema.omit({
   id: true, 
   createdAt: true, 
   updatedAt: true 
@@ -85,7 +91,10 @@ export const RentalRequestSchema = z.object({
   totalPrice: z.number().min(0),
 });
 
-export type Car = z.infer<typeof CarSchema>;
+export const CarRentalOffersSchema = z.array(CarRentalOfferSchema);
+
+export type CarRentalOffer = z.infer<typeof CarRentalOfferSchema>;
+export type CarRentalOffers = z.infer<typeof CarRentalOffersSchema>;
 export type CreateCar = z.infer<typeof CreateCarSchema>;
 export type Amenity = z.infer<typeof AmenitySchema>;
 export type RentalRequest = z.infer<typeof RentalRequestSchema>;
