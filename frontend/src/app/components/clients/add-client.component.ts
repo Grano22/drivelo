@@ -138,9 +138,10 @@ import {CustomerInternalHttpClient} from "../../services/customer-internal-http-
                                 [maxDate]="maxBirthDate"
                                 class="w-full"
                                 inputclass="input-field"
+                                [defaultDate]="minBirthDate"
                             />
                             @if (clientForm.get('birthDate')?.invalid && clientForm.get('birthDate')?.touched) {
-                                <p-message severity="error" text="Birth date is required" class="mt-1"/>
+                                <p-message severity="error" class="mt-1">Birth date is required</p-message>
                             }
                         </div>
 
@@ -215,6 +216,9 @@ export class AddClientComponent {
     readonly #router = inject(Router);
     readonly #fb = inject(NonNullableFormBuilder);
 
+    readonly minBirthYear = new Date().getFullYear() - 18 || 2007;
+    readonly minBirthDate = new Date(this.minBirthYear, 0, 1);
+
     protected readonly loading = signal(false);
     protected readonly errorMessage = signal<string | null>(null);
 
@@ -235,10 +239,6 @@ export class AddClientComponent {
         credits: [0, [Validators.required, Validators.min(0)]],
         password: ['', [Validators.required, Validators.minLength(8), Validators.maxLength(32)]],
     });
-
-    // protected clearFilters(): void {
-    //   this.filterForm.reset();
-    // }
 
     protected async onSubmit(): Promise<void> {
         if (this.clientForm.invalid) {

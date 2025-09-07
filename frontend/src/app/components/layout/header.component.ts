@@ -26,6 +26,14 @@ import { AppStore } from '../../store/app.store';
             @if (authService.isAuthenticated()) {
               <div class="hidden md:block">
                 <div class="flex items-baseline space-x-4">
+                    <a
+                        routerLink="/dashboard"
+                        routerLinkActive="text-primary-600 dark:text-primary-400"
+                        class="text-gray-600 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                    >
+                        {{ 'navigation.dashboard' | translate }}
+                    </a>
+                    
                   @if (store.isCustomer()) {
                     <a 
                       routerLink="/cars"

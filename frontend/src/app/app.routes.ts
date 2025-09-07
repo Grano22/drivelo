@@ -27,7 +27,7 @@ export const routes: Routes = [
     },
     {
         path: 'rented-cars',
-        loadComponent: () => import('./components/cars/carr-rented-list.component').then(m => m.RentedCarListComponent),
+        loadComponent: () => import('./components/cars/car-rented-list.component').then(m => m.RentedCarListComponent),
         canActivate: [authGuard, customerGuard]
     },
     {
