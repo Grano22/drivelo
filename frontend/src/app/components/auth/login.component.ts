@@ -90,8 +90,8 @@ import { AuthService } from '../../services/auth.service';
 
           <div class="text-sm text-gray-600 dark:text-gray-400 mt-4">
             <p class="font-medium">Demo accounts:</p>
-            <p>Customer: customer&#64;drivelo.org / os7dy9dssdKHahdk</p>
-            <p>Manager: manager&#64;drivelo.org / iiysaiuuIYT&^d5sd</p>
+            <p>Customer: customer&#64;example.org / os7dy9dssdKHahdk</p>
+            <p>Manager: manager&#64;example.org / iiysaiuuIYT&^d5sd</p>
           </div>
         </form>
       </div>

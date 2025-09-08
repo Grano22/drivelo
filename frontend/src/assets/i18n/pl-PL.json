@@ -108,7 +108,8 @@
     "HYBRID": "Hybrydowy",
     "ELECTRIC": "Elektryczny",
     "LPG": "LPG",
-    "FUEL_CELL_PLUGIN": "FUEL_CELL_PLUGIN"
+    "FUEL_CELL_PLUGIN": "FUEL_CELL_PLUGIN",
+    "GASOLINE": "Gaz"
   },
   "amenities": {
     "air_conditioning": "Klimatyzacja",

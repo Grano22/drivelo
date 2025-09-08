@@ -13,6 +13,8 @@ import {TagModule} from 'primeng/tag';
 import {AppStore} from '../../store/app.store';
 import {AmenityType, CarStatus} from '../../types/car.types';
 import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-http-clients";
+import {RFC7807ProblemDetailsResponseSchema} from "../../types/http.types";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
     selector: 'app-car-rental',
@@ -332,6 +334,15 @@ export class CarRentalComponent {
                     });
                 },
                 error: error => {
+                    if (error instanceof HttpErrorResponse) {
+                        const problemDetail = RFC7807ProblemDetailsResponseSchema.safeParse(error.error);
+                        if (problemDetail.success) {
+                            this.errorMessage.set(problemDetail.data.detail);
+
+                            return;
+                        }
+                    }
+
                     this.errorMessage.set('Failed to rent car: ' + error.message);
                 }
             });

@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
@@ -63,7 +64,7 @@ public class CarRenter {
             throw new IllegalStateException("Car " + offer.getCar().getId() + " is not available");
         }
 
-        long howManyDays = ChronoUnit.DAYS.between(from, to);
+        long howManyDays = ChronoUnit.DAYS.between(from.toLocalDate(), to.toLocalDate().plusDays(1));
 
         if (
             (offer.getMinRentalDays() != null && howManyDays < offer.getMinRentalDays()) ||

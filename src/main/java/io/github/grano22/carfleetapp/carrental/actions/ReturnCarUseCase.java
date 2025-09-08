@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
@@ -46,8 +47,8 @@ public class ReturnCarUseCase {
         }
 
         LocalDateTime now = LocalDateTime.now();
-        long rentingDays = ChronoUnit.DAYS.between(rental.getRentedFrom(), now);
-        long expectedRentingDays = ChronoUnit.DAYS.between(rental.getRentedFrom(), rental.getRentedUntil());
+        long rentingDays = ChronoUnit.DAYS.between(rental.getRentedFrom().toLocalDate(), now.toLocalDate().plusDays(1));
+        long expectedRentingDays = ChronoUnit.DAYS.between(rental.getRentedFrom().toLocalDate(), rental.getRentedUntil().toLocalDate().plusDays(1));
         double finalPrice = rental.getLockedPricePerDay() * rentingDays;
         double intendedPrice = expectedRentingDays * rental.getLockedPricePerDay();
 

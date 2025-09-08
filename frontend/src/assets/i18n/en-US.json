@@ -108,7 +108,8 @@
     "HYBRID": "Hybrid",
     "ELECTRIC": "Electric",
     "LPG": "LPG",
-    "FUEL_CELL_PLUGIN": "FUEL_CELL_PLUGIN"
+    "FUEL_CELL_PLUGIN": "FUEL_CELL_PLUGIN",
+    "GASOLINE": "Gasoline"
   },
   "amenities": {
     "air_conditioning": "Air Conditioning",
