@@ -195,13 +195,13 @@ public class RentCarUseCaseTest {
         return Stream.of(
             Arguments.of(
                 "Rental range is before now",
-                "Rental date range must be after now",
+                "Rental date range must be at least in the same day as now",
                 LocalDateTime.of(2025, 9, 1, 0, 0),
                 LocalDateTime.of(2025, 9, 7, 0, 0)
             ),
             Arguments.of(
                 "Rental start date is before now",
-                "Rental date range must be after now",
+                "Rental date range must be at least in the same day as now",
                 LocalDateTime.of(2025, 9, 5, 0, 0),
                 LocalDateTime.of(2025, 9, 9, 0, 0)
             ),

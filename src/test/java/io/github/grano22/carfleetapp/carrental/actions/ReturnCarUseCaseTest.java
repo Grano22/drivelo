@@ -65,10 +65,10 @@ public class ReturnCarUseCaseTest {
         String description,
         BigDecimal expectedFinalUserBalance,
         LocalDateTime rentedFrom,
-        LocalDateTime rentedTo
+        LocalDateTime rentedTo,
+        LocalDateTime now
     ) {
         // Assert
-        LocalDateTime now = LocalDateTime.of(2025, 9, 8, 0, 0);
         clock.set(now);
         User anUser = userRepository.save(UsersMother.bornCustomer());
         Car aCar = carRepository.save(CarMother.bornToyotaSupraMk5());
@@ -113,24 +113,81 @@ public class ReturnCarUseCaseTest {
     }
 
     private static Stream<Arguments> provideVariousValidCases() {
+        LocalDateTime now = LocalDateTime.of(2025, 9, 8, 0, 0);
+
         return Stream.of(
             Arguments.of(
             "Car returned in the middle of rental period and credits were returned partially for unused days",
                 BigDecimal.valueOf(300.76),
                 LocalDateTime.of(2025, 9, 6, 0, 0),
-                LocalDateTime.of(2025, 9, 12, 0, 0)
+                LocalDateTime.of(2025, 9, 12, 0, 0),
+                now
             ),
             Arguments.of(
                 "Car returned before rental period and 100% credits were returned",
-                BigDecimal.valueOf(300),
+                BigDecimal.valueOf(301.14),
                 LocalDateTime.of(2025, 9, 12, 0, 0),
-                LocalDateTime.of(2025, 9, 18, 0, 0)
+                LocalDateTime.of(2025, 9, 18, 0, 0),
+                 now
             ),
             Arguments.of(
                 "Car returned after rental period and credits were consumed for additional days",
                 BigDecimal.valueOf(299.62),
                 LocalDateTime.of(2025, 9, 1, 0, 0),
-                LocalDateTime.of(2025, 9, 6, 0, 0)
+                LocalDateTime.of(2025, 9, 6, 0, 0),
+                now
+            ),
+            Arguments.of(
+                "Car returned when client requested it in the same day as rental",
+                BigDecimal.valueOf(300.19),
+                LocalDateTime.of(2025, 9, 8, 8, 0),
+                LocalDateTime.of(2025, 9, 9, 23, 59),
+                LocalDateTime.of(2025, 9, 8, 22, 0)
+            ),
+            Arguments.of(
+                "Car returned when client requested it in the next day as rental",
+                BigDecimal.valueOf(300),
+                LocalDateTime.of(2025, 9, 8, 8, 0),
+                LocalDateTime.of(2025, 9, 9, 23, 59),
+                LocalDateTime.of(2025, 9, 9, 0, 0)
+            )
+        );
+    }
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("provideInternalInvalidStateCases")
+    public void customerCannotReturnACarDueToInvalidState(
+        String description,
+        LocalDateTime rentedFrom,
+        LocalDateTime rentedTo,
+        LocalDateTime now
+    ) {
+        // Assert
+        clock.set(now);
+        var fixtures = provideTypicalFixture(rentedFrom, rentedTo);
+
+        // Act
+        InvalidStateForOperation caughtProblem = assertThrows(InvalidStateForOperation.class, () -> {
+            returnCarUseCase.execute(fixtures.anUser.getId(), fixtures.carRental.getId());
+        });
+        assertThat(caughtProblem.getMessage()).isEqualTo("Server error, invalid rental date range stored");
+    }
+
+    private static Stream<Arguments> provideInternalInvalidStateCases() {
+        LocalDateTime now = LocalDateTime.of(2025, 9, 8, 0, 0);
+
+        return Stream.of(
+            Arguments.of(
+                "Car returned when client requested it in the same day as rental",
+                LocalDateTime.of(2025, 9, 8, 8, 0),
+                LocalDateTime.of(2025, 9, 8, 23, 59),
+                LocalDateTime.of(2025, 9, 8, 22, 0)
+            ),
+            Arguments.of(
+                "Car returned when client requested it in the next day as rental",
+                LocalDateTime.of(2025, 9, 8, 8, 0),
+                LocalDateTime.of(2025, 9, 8, 23, 59),
+                LocalDateTime.of(2025, 9, 9, 0, 0)
             )
         );
     }

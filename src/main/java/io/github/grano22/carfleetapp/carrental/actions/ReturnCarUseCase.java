@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -50,33 +51,41 @@ public class ReturnCarUseCase {
             throw new InvalidStateForOperation("User " + userId + " is not active");
         }
 
-        LocalDateTime now = LocalDateTime.now(clock);
+        LocalDate today = LocalDateTime.now(clock).toLocalDate();
+        LocalDate fromDay = rental.getRentedFrom().toLocalDate();
+        LocalDate untilDay = rental.getRentedUntil().toLocalDate();
 
-        if (rental.getRentedFrom().isAfter(now)) {
+        if (fromDay.equals(untilDay)) {
+            throw new InvalidStateForOperation("Server error, invalid rental date range stored");
+        }
+
+        long rentingDays = ChronoUnit.DAYS.between(fromDay, today);
+        long expectedRentingDays = ChronoUnit.DAYS.between(fromDay, untilDay);
+        BigDecimal finalPrice = BigDecimal.valueOf(rental.getLockedPricePerDay()).multiply(BigDecimal.valueOf(rentingDays));
+        BigDecimal intendedPrice = BigDecimal.valueOf(rental.getLockedPricePerDay()).multiply(BigDecimal.valueOf(expectedRentingDays));
+
+        if (fromDay.isAfter(today)) {
+            BigDecimal balance = rentee.getCredits().add(intendedPrice);
+            rentee = rentee.toBuilder().credits(balance).build();
             finalizeReturn(rentee, rental);
 
             return;
         }
 
-        long rentingDays = ChronoUnit.DAYS.between(rental.getRentedFrom(), now);
-        long expectedRentingDays = ChronoUnit.DAYS.between(rental.getRentedFrom(), rental.getRentedUntil());
-        double finalPrice = rental.getLockedPricePerDay() * rentingDays;
-        double intendedPrice = expectedRentingDays * rental.getLockedPricePerDay();
+        if (finalPrice.compareTo(intendedPrice) < 0) {
+            BigDecimal balance = rentee.getCredits().add(intendedPrice.subtract(finalPrice));
 
-        if (finalPrice < intendedPrice) {
-            double balance = rentee.getCredits().doubleValue() + (intendedPrice - finalPrice);
-
-            rentee = rentee.toBuilder().credits(BigDecimal.valueOf(balance)).build();
+            rentee = rentee.toBuilder().credits(balance).build();
         }
 
-        if (finalPrice > intendedPrice) {
-            double balance = rentee.getCredits().doubleValue() - (finalPrice - intendedPrice);
+        if (finalPrice.compareTo(intendedPrice) > 0) {
+            BigDecimal balance = rentee.getCredits().subtract(finalPrice.subtract(intendedPrice));
 
-            if (balance < 0) {
+            if (balance.signum() == -1) {
                 throw new InvalidStateForOperation("User " + userId + " has insufficient credits");
             }
 
-            rentee = rentee.toBuilder().credits(BigDecimal.valueOf(balance)).build();
+            rentee = rentee.toBuilder().credits(balance).build();
         }
 
         finalizeReturn(rentee, rental);

@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Clock;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
@@ -74,17 +75,20 @@ public class RentCarUseCase {
             throw new InvalidStateForOperation("Car " + offer.getCar().getId() + " is not available");
         }
 
-        LocalDateTime now = LocalDateTime.now(clock);
+        LocalDateTime today = LocalDateTime.now(clock).toLocalDate().atStartOfDay();
 
         if (to.isBefore(from)) {
             throw new InvalidDataGivenForOperation("Rental from date must be before rental end date");
         }
 
-        if (from.isBefore(now) || to.isBefore(now)) {
-            throw new InvalidDataGivenForOperation("Rental date range must be after now");
+        if (from.isBefore(today)) {
+            throw new InvalidDataGivenForOperation("Rental date range must be at least in the same day as now");
         }
 
-        long howManyDays = ChronoUnit.DAYS.between(from, to);
+        LocalDate fromDay = from.toLocalDate();
+        LocalDate toDay = to.toLocalDate();
+
+        long howManyDays = ChronoUnit.DAYS.between(fromDay, toDay);
 
         if (howManyDays <= 0) {
             throw new InvalidDataGivenForOperation("User must rent at least for one day");

@@ -12,6 +12,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.ZoneOffset;
+
 @RestController
 @RequestMapping("/service/car-rental/v1")
 public class CarRentalController {
@@ -38,7 +40,12 @@ public class CarRentalController {
     @PostMapping("/rent")
     @PreAuthorize("hasAuthority(T(io.github.grano22.carfleetapp.usermanagement.domain.UserPermission).RENT_CARS.name())")
     public void rentCar(@RequestBody @Valid CarRentalRequest request, @AuthenticationPrincipal User user) {
-        rentCarUseCase.execute(user.getId(), request.offerId(), request.from(), request.to());
+        rentCarUseCase.execute(
+            user.getId(),
+            request.offerId(),
+            request.from().withOffsetSameInstant(ZoneOffset.UTC).toLocalDateTime(),
+            request.to().withOffsetSameInstant(ZoneOffset.UTC).toLocalDateTime()
+        );
     }
 
     @PostMapping("/return")
