@@ -5,6 +5,7 @@ import io.github.grano22.carfleetapp.usermanagement.contract.AddCustomerRequest;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserRole;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserStatus;
 import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,11 @@ public class AddCustomerUseCaseTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @AfterEach
+    public void afterEach() {
+        userRepository.deleteAll();
+    }
 
     @Test
     public void testNewCustomerCanBeSuccessfullyAdded() {
