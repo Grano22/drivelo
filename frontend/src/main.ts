@@ -53,7 +53,10 @@ void bootstrapApplication(App, {
     provideAnimations(),
     providePrimeNG({
         theme: {
-            preset: Aura
+            preset: Aura,
+            options: {
+                darkModeSelector: '.dark-theme'
+            }
         }
     }),
     provideTranslateService({

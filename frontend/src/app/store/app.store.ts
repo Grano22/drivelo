@@ -69,7 +69,7 @@ export const AppStore = signalStore(
     setTheme: (theme: 'light' | 'dark') => {
       patchState(store, { theme });
       localStorage.setItem('theme', theme);
-      document.documentElement.classList.toggle('dark', theme === 'dark');
+      document.documentElement.classList.toggle('dark-theme', theme === 'dark');
     },
     setLanguage: (language: 'en-GB' | 'en-US' | 'pl-PL') => {
       patchState(store, { language });
@@ -79,7 +79,7 @@ export const AppStore = signalStore(
       const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
       const theme = savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
       patchState(store, { theme });
-      document.documentElement.classList.toggle('dark', theme === 'dark');
+      document.documentElement.classList.toggle('dark-theme', theme === 'dark');
     },
     initializeLanguage: () => {
       const savedLanguage = localStorage.getItem('language') as 'en-GB' | 'en-US' | 'pl-PL' | null;
