@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.NonNull;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.util.Pair;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -21,6 +22,8 @@ public abstract class InMemoryCrudRepository<T, ID> implements CrudRepository<T,
     private final Class<ID> idType;
 
     private final Map<String, PropertyAccessor> accessorsByColumnName;
+    private final String idAccessorName;
+    private final GenerationType idAutogenerationStrategy;
 
     private final Map<String, Map<Object, T>> indexes = new ConcurrentHashMap<>();
     private final Map<List<String>, Map<CompositeKey, T>> compositeIndexes = new ConcurrentHashMap<>();
@@ -33,6 +36,9 @@ public abstract class InMemoryCrudRepository<T, ID> implements CrudRepository<T,
         this.idType = idType;
 
         this.accessorsByColumnName = buildFieldsByColumnName(entityType);
+        var idDetails = findIdAccessorName();
+        idAccessorName = idDetails.getFirst();
+        idAutogenerationStrategy = idDetails.getSecond().orElse(null);
 
         UniqueConstraintsScanResult uniques = scanUniqueConstraints(entityType);
         this.uniqueColumnNames = uniques.singleColumns();
@@ -43,14 +49,24 @@ public abstract class InMemoryCrudRepository<T, ID> implements CrudRepository<T,
 
     @Override
     public <S extends T> @NonNull S save(@NonNull S entity) {
+        PropertyAccessor accessor = accessorsByColumnName.get(idAccessorName);
+        Object rawId = accessor.get(entity);
+
+        if (rawId == null && idAutogenerationStrategy != null) {
+            var strategies = ObjectValuePatcher.findAvailableStrategiesForField(entityType, idAccessorName);
+            var bestStrategy = strategies.stream().findFirst().orElseThrow(() -> new IllegalStateException("Cannot find strategy to patch id"));
+
+            entity = (S)bestStrategy.patch(entity, idAccessorName, generateDefaultValue());
+        }
+
         enforceUniqueConstraints(entity);
+
         final ID id = this.getId(entity);
         this.store.put(id, entity);
         updateIndexesFor(entity);
         updateCompositeIndexesFor(entity);
 
         return entity;
-
     }
 
     @Override
@@ -424,25 +440,31 @@ public abstract class InMemoryCrudRepository<T, ID> implements CrudRepository<T,
 
     // --- ID utilities ---
 
-    private ID getId(@NonNull T entity) {
-        for (Field field : this.entityType.getDeclaredFields()) {
+    private @NonNull ID getId(@NonNull T entity) {
+        PropertyAccessor accessor = accessorsByColumnName.get(idAccessorName);
+        Object rawId = accessor.get(entity);
+
+        if (rawId == null) {
+            throw new IllegalStateException("ID field is null");
+        }
+
+        if (idType.isInstance(rawId)) {
+            return idType.cast(rawId);
+        }
+
+        throw new IllegalStateException("Id has unexpected type: " + rawId.getClass().getName());
+    }
+
+    private @NonNull Pair<String, Optional<GenerationType>> findIdAccessorName() {
+        for (Field field : entityType.getDeclaredFields()) {
             if (field.isAnnotationPresent(Id.class)) {
-                PropertyAccessor accessor = accessorsByColumnName.get(field.getName());
-                Object rawId = accessor.get(entity);
+                Optional<GenerationType> idGenerationStrategy = Optional.empty();
 
-                if (rawId == null) {
-                    if (field.isAnnotationPresent(GeneratedValue.class) && field.getAnnotation(GeneratedValue.class).strategy() == GenerationType.AUTO) {
-                        return generateDefaultValue();
-                    }
-
-                    throw new IllegalStateException("ID field is null");
+                if (field.isAnnotationPresent(GeneratedValue.class)) {
+                    idGenerationStrategy = Optional.of(field.getAnnotation(GeneratedValue.class).strategy());
                 }
 
-                if (idType.isInstance(rawId)) {
-                    return idType.cast(rawId);
-                }
-
-                throw new IllegalStateException("Id has unexpected type: " + rawId.getClass().getName());
+                return Pair.of(field.getName(), idGenerationStrategy);
             }
         }
 

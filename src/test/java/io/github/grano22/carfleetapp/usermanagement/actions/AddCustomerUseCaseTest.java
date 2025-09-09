@@ -18,13 +18,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 public class AddCustomerUseCaseTest {
     @Autowired
-    AddCustomerUseCase addCustomerUseCase;
+    private AddCustomerUseCase addCustomerUseCase;
 
     @Autowired
-    AdjustableClock clock;
+    private AdjustableClock clock;
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @Test
     public void testNewCustomerCanBeSuccessfullyAdded() {

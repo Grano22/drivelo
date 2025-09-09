@@ -1,6 +1,6 @@
 package io.github.grano22.carfleetapp.carrental;
 
-import io.github.grano22.carfleetapp.carrental.actions.CarRenter;
+import io.github.grano22.carfleetapp.carrental.actions.RentCarUseCase;
 import io.github.grano22.carfleetapp.carrental.actions.ReturnCarUseCase;
 import io.github.grano22.carfleetapp.carrental.assembler.RentedCarsByUserAssembler;
 import io.github.grano22.carfleetapp.carrental.contract.CarRentalRequest;
@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/service/car-rental/v1")
 public class CarRentalController {
-    private final CarRenter carRenter;
+    private final RentCarUseCase rentCarUseCase;
     private final ReturnCarUseCase returnCarUseCase;
     private final RentedCarsByUserAssembler rentedCarsByUserAssembler;
 
     public CarRentalController(
-        CarRenter carRenter,
+        RentCarUseCase rentCarUseCase,
         ReturnCarUseCase returnCarUseCase,
         RentedCarsByUserAssembler rentedCarsByUserAssembler
     ) {
-        this.carRenter = carRenter;
+        this.rentCarUseCase = rentCarUseCase;
         this.returnCarUseCase = returnCarUseCase;
         this.rentedCarsByUserAssembler = rentedCarsByUserAssembler;
     }
@@ -38,7 +38,7 @@ public class CarRentalController {
     @PostMapping("/rent")
     @PreAuthorize("hasAuthority(T(io.github.grano22.carfleetapp.usermanagement.domain.UserPermission).RENT_CARS.name())")
     public void rentCar(@RequestBody @Valid CarRentalRequest request, @AuthenticationPrincipal User user) {
-        carRenter.rent(user.getId(), request.offerId(), request.from(), request.to());
+        rentCarUseCase.execute(user.getId(), request.offerId(), request.from(), request.to());
     }
 
     @PostMapping("/return")

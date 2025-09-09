@@ -5,31 +5,36 @@ import io.github.grano22.carfleetapp.carfleetmanagement.infrastructure.persistan
 import io.github.grano22.carfleetapp.carrental.CarRental;
 import io.github.grano22.carfleetapp.carrental.CarRentalOffer;
 import io.github.grano22.carfleetapp.shared.domain.InvalidDataGivenForOperation;
+import io.github.grano22.carfleetapp.shared.domain.InvalidStateForOperation;
 import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
 import io.github.grano22.carfleetapp.carrental.domain.CarRentalOfferStatus;
 import io.github.grano22.carfleetapp.carrental.infrastructure.persistance.CarRentalOfferRepository;
 import io.github.grano22.carfleetapp.carrental.infrastructure.persistance.CarRentalRepository;
 import io.github.grano22.carfleetapp.usermanagement.User;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserStatus;
+import lombok.NonNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.Clock;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 
 @Service
-public class CarRenter {
+public class RentCarUseCase {
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     private final UserRepository userRepository;
     private final CarRentalOfferRepository carRentalOfferRepository;
     private final CarRentalRepository carRentalRepository;
     private final CarRepository carRepository;
     private final Clock clock;
 
-    public CarRenter(
+    public RentCarUseCase(
         UserRepository userRepository,
         CarRentalOfferRepository carRentalOfferRepository,
         CarRentalRepository carRentalRepository,
@@ -44,7 +49,12 @@ public class CarRenter {
     }
 
     @Transactional
-    public CarRental rent(UUID userId, UUID offerId, LocalDateTime from, LocalDateTime to) {
+    public CarRental execute(
+        @NonNull UUID userId,
+        @NonNull UUID offerId,
+        @NonNull LocalDateTime from,
+        @NonNull LocalDateTime to
+    ) {
         User rentee = userRepository.findById(userId)
             .orElseThrow(() -> new IllegalArgumentException("User " + userId + " not found"))
         ;
@@ -53,47 +63,69 @@ public class CarRenter {
         ;
 
         if (!rentee.getStatus().equals(UserStatus.ACTIVE)) {
-            throw new IllegalStateException("User " + userId + " is not active");
+            throw new InvalidStateForOperation("User " + userId + " is not active");
         }
 
         if (!offer.getStatus().equals(CarRentalOfferStatus.ACTIVE)) {
-            throw new IllegalStateException("Offer " + offerId + " is no longer active");
+            throw new InvalidStateForOperation("Offer " + offerId + " is no longer active");
         }
 
         if (offer.getCar().getStatus() != CarStatus.AVAILABLE) {
-            throw new IllegalStateException("Car " + offer.getCar().getId() + " is not available");
+            throw new InvalidStateForOperation("Car " + offer.getCar().getId() + " is not available");
         }
 
-        long howManyDays = ChronoUnit.DAYS.between(from.toLocalDate(), to.toLocalDate().plusDays(1));
+        LocalDateTime now = LocalDateTime.now(clock);
+
+        if (to.isBefore(from)) {
+            throw new InvalidDataGivenForOperation("Rental from date must be before rental end date");
+        }
+
+        if (from.isBefore(now) || to.isBefore(now)) {
+            throw new InvalidDataGivenForOperation("Rental date range must be after now");
+        }
+
+        long howManyDays = ChronoUnit.DAYS.between(from, to);
+
+        if (howManyDays <= 0) {
+            throw new InvalidDataGivenForOperation("User must rent at least for one day");
+        }
 
         if (
             (offer.getMinRentalDays() != null && howManyDays < offer.getMinRentalDays()) ||
             (offer.getMaxRentalDays() != null && howManyDays > offer.getMaxRentalDays())
         ) {
-            throw new InvalidDataGivenForOperation("Offer " + offerId + " does not allow rental for " + howManyDays + " days");
+            throw new InvalidDataGivenForOperation("This offer does not allow rental for " + howManyDays + " day" + (howManyDays > 1 ? "s" : ""));
         }
 
-        double finalPotentialPrice = offer.getPricePerDay() * howManyDays;
+        BigDecimal finalPotentialPrice = BigDecimal.valueOf(offer.getPricePerDay()).multiply(BigDecimal.valueOf(howManyDays));
 
-        if (finalPotentialPrice > rentee.getCredits().doubleValue()) {
-            throw new IllegalStateException("User " + userId + " has insufficient credits");
+        if (finalPotentialPrice.compareTo(rentee.getCredits()) > 0) {
+            throw new InvalidStateForOperation("User " + userId + " has insufficient credits");
         }
 
-        double balance = rentee.getCredits().doubleValue() - finalPotentialPrice;
-        rentee = rentee.toBuilder().credits(BigDecimal.valueOf(balance)).build();
+        BigDecimal balance = rentee.getCredits().subtract(finalPotentialPrice);
+        rentee = rentee.toBuilder().credits(balance).build();
 
         userRepository.save(rentee);
         carRepository.save(offer.getCar().toBuilder().status(CarStatus.RENTED).build());
 
-        LocalDateTime rentalStart = LocalDateTime.now(clock);
         CarRental rental = CarRental.builder()
             .user(rentee)
             .offer(offer)
             .lockedPricePerDay(offer.getPricePerDay())
-            .rentedFrom(rentalStart)
-            .rentedUntil(rentalStart.plusDays(howManyDays))
+            .rentedFrom(from)
+            .rentedUntil(to)
             .build()
         ;
+
+        logger.info(
+            "[RentCarUseCase] User {} has rented car from offer {} from {} to {} and has balance {}",
+            userId,
+            offer.getId(),
+            from,
+            to,
+            balance.doubleValue()
+        );
 
         return carRentalRepository.save(rental);
     }
