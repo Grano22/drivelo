@@ -2,7 +2,7 @@ package io.github.grano22.carfleetapp.usermanagement.actions;
 
 import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
 import io.github.grano22.carfleetapp.usermanagement.User;
-import io.github.grano22.carfleetapp.usermanagement.contract.AddCustomerRequest;
+import io.github.grano22.carfleetapp.usermanagement.contract.SaveCustomerRequest;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserRole;
 import lombok.NonNull;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,12 +27,12 @@ public class AddCustomerUseCase {
         this.clock = clock;
     }
 
-    public void execute(@NonNull AddCustomerRequest request) {
+    public void execute(@NonNull SaveCustomerRequest request) {
         LocalDateTime now = LocalDateTime.now(clock);
         User newCustomer = User.builder()
             .id(UUID.randomUUID())
             .password(passwordEncoder.encode(request.password()))
-            .credits(new BigDecimal(Optional.ofNullable(request.credits()).orElse(0D)))
+            .credits(Optional.ofNullable(request.credits()).orElse(BigDecimal.valueOf(0D)))
             .status(request.status())
             .firstName(request.firstName())
             .lastName(request.lastName())

@@ -1,5 +1,6 @@
 package io.github.grano22.carfleetapp.usermanagement;
 
+import io.github.grano22.carfleetapp.usermanagement.assembler.CustomerDetailsAssembler;
 import io.github.grano22.carfleetapp.usermanagement.assembler.CustomersListingAssembler;
 import io.github.grano22.carfleetapp.usermanagement.contract.AccountOwnerDetailsResponse;
 import io.github.grano22.carfleetapp.usermanagement.contract.UserDetailsView;
@@ -7,24 +8,28 @@ import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.U
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/service/user/v1")
 public class UserDetailsController {
     private final UserRepository userRepository;
     private final CustomersListingAssembler customersListingAssembler;
+    private final CustomerDetailsAssembler customerDetailsAssembler;
 
     public UserDetailsController(
-        UserRepository userRepository,
-        CustomersListingAssembler customersListingAssembler
+            UserRepository userRepository,
+            CustomersListingAssembler customersListingAssembler, CustomerDetailsAssembler customerDetailsAssembler
     ) {
         this.userRepository = userRepository;
         this.customersListingAssembler = customersListingAssembler;
+        this.customerDetailsAssembler = customerDetailsAssembler;
     }
 
     @GetMapping
@@ -55,6 +60,14 @@ public class UserDetailsController {
             freshUserData.getCreatedAt().atOffset(ZoneOffset.UTC).format(isoFormatter),
             freshUserData.getUpdatedAt().atOffset(ZoneOffset.UTC).format(isoFormatter)
         );
+    }
+
+    @GetMapping("/customer/{userId}")
+    @PreAuthorize("hasAuthority(T(io.github.grano22.carfleetapp.usermanagement.domain.UserPermission).VIEW_CUSTOMERS.name())")
+    public UserDetailsView getCustomerDetails(@PathVariable("userId") UUID userId) {
+        // TODO: Add dedicated permission
+
+        return customerDetailsAssembler.assemble(userId);
     }
 
     @GetMapping("/customers")

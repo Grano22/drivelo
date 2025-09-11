@@ -1,6 +1,7 @@
 package io.github.grano22.carfleetapp.usermanagement.contract;
 
 public record UserDetailsView(
+    String id,
     String firstName,
     String lastName,
     String email,

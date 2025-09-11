@@ -1,7 +1,7 @@
 package io.github.grano22.carfleetapp.usermanagement.actions;
 
 import io.github.grano22.carfleetapp.kit.AdjustableClock;
-import io.github.grano22.carfleetapp.usermanagement.contract.AddCustomerRequest;
+import io.github.grano22.carfleetapp.usermanagement.contract.SaveCustomerRequest;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserRole;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserStatus;
 import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -36,7 +37,7 @@ public class AddCustomerUseCaseTest {
     public void testNewCustomerCanBeSuccessfullyAdded() {
         // Assert
         clock.set(LocalDateTime.of(2020, 1, 1, 0, 0));
-        AddCustomerRequest request = new AddCustomerRequest(
+        SaveCustomerRequest request = new SaveCustomerRequest(
             "Anton",
             "Michaluk",
             "abcd1234",
@@ -44,7 +45,7 @@ public class AddCustomerUseCaseTest {
             "123 123 123",
             LocalDate.of(2003, 12, 11),
             UserStatus.ACTIVE,
-            100D
+            BigDecimal.valueOf(100D)
         );
 
         // Act

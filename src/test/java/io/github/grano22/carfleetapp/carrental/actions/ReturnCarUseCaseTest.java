@@ -174,8 +174,6 @@ public class ReturnCarUseCaseTest {
     }
 
     private static Stream<Arguments> provideInternalInvalidStateCases() {
-        LocalDateTime now = LocalDateTime.of(2025, 9, 8, 0, 0);
-
         return Stream.of(
             Arguments.of(
                 "Car returned when client requested it in the same day as rental",

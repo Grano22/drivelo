@@ -5,7 +5,8 @@ import io.github.grano22.carfleetapp.config.UnitTestRepositories;
 import io.github.grano22.carfleetapp.kit.SecurityScenario;
 import io.github.grano22.carfleetapp.kit.UsersMother;
 import io.github.grano22.carfleetapp.usermanagement.actions.AddCustomerUseCase;
-import io.github.grano22.carfleetapp.usermanagement.contract.AddCustomerRequest;
+import io.github.grano22.carfleetapp.usermanagement.actions.UpdateCustomerUseCase;
+import io.github.grano22.carfleetapp.usermanagement.contract.SaveCustomerRequest;
 import io.github.grano22.carfleetapp.usermanagement.domain.UserStatus;
 import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.UserRepository;
 import org.junit.jupiter.api.BeforeAll;
@@ -19,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,6 +45,9 @@ public class UserManagementControllerTest {
     @MockitoBean
     AddCustomerUseCase addCustomerUseCase;
 
+    @MockitoBean
+    UpdateCustomerUseCase updateCustomerUseCase;
+
     Map<String, User> users = new ConcurrentHashMap<>();
 
     @BeforeAll
@@ -56,7 +61,7 @@ public class UserManagementControllerTest {
     public void saveCustomer_returns200_whenSuccessful() throws Exception {
         // Arrange
         var session = SecurityScenario.afterPerformedLogin(UsersMother.MANAGER_EMAIL, UsersMother.MANAGER_PASSWORD, mockMvc);
-        doNothing().when(addCustomerUseCase).execute(any(AddCustomerRequest.class));
+        doNothing().when(addCustomerUseCase).execute(any(SaveCustomerRequest.class));
 
         // Act & Assert
         mockMvc.perform(
@@ -70,7 +75,7 @@ public class UserManagementControllerTest {
                     "phone": "123 456 789",
                     "birthDate": "2000-01-01",
                     "status": "ACTIVE",
-                    "credits": 100
+                    "credits": 100.0
                 }
                 """)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -78,20 +83,20 @@ public class UserManagementControllerTest {
         )
             .andExpect(status().isOk())
         ;
-        ArgumentCaptor<AddCustomerRequest> requestCaptor = ArgumentCaptor.forClass(AddCustomerRequest.class);
+        ArgumentCaptor<SaveCustomerRequest> requestCaptor = ArgumentCaptor.forClass(SaveCustomerRequest.class);
         verify(addCustomerUseCase).execute(requestCaptor.capture());
 
-        AddCustomerRequest passedRequest = requestCaptor.getValue();
+        SaveCustomerRequest passedRequest = requestCaptor.getValue();
         assertThat(passedRequest).isEqualTo(
-            new AddCustomerRequest(
-            "Alice",
-            "Dritakova",
-            "abcd12345",
-            "alice@example.com",
-            "123 456 789",
-            LocalDate.of(2000, 1, 1),
-            UserStatus.ACTIVE,
-             100D
+            new SaveCustomerRequest(
+                "Alice",
+                "Dritakova",
+                "abcd12345",
+                "alice@example.com",
+                "123 456 789",
+                LocalDate.of(2000, 1, 1),
+                UserStatus.ACTIVE,
+                BigDecimal.valueOf(100D)
             )
         );
     }
@@ -100,7 +105,7 @@ public class UserManagementControllerTest {
     public void saveCustomer_returns403_whenNoSufficientPermission() throws Exception {
         // Arrange
         var session = SecurityScenario.afterPerformedLogin(UsersMother.CUSTOMER_EMAIL, UsersMother.CUSTOMER_PASSWORD, mockMvc);
-        doNothing().when(addCustomerUseCase).execute(any(AddCustomerRequest.class));
+        doNothing().when(addCustomerUseCase).execute(any(SaveCustomerRequest.class));
 
         // Act & Assert
         mockMvc.perform(
@@ -128,7 +133,7 @@ public class UserManagementControllerTest {
     public void saveCustomer_returns400_whenUnexpectedRequestProvided() throws Exception {
         // Arrange
         var session = SecurityScenario.afterPerformedLogin(UsersMother.CUSTOMER_EMAIL, UsersMother.CUSTOMER_PASSWORD, mockMvc);
-        doNothing().when(addCustomerUseCase).execute(any(AddCustomerRequest.class));
+        doNothing().when(addCustomerUseCase).execute(any(SaveCustomerRequest.class));
 
         // Act & Assert
         mockMvc.perform(

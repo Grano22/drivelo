@@ -37,21 +37,16 @@ export const UserDetailsSchema = z.object({
     updatedAt: z.iso.datetime(),
 });
 
-export const CustomersSchema = z.array(UserDetailsSchema);
+export const CustomerDetailsSchema = UserDetailsSchema.extend({
+    id: z.uuid()
+});
 
 export const UserSchema = UserDetailsSchema.extend({
     roles: z.array(z.enum(UserRole)),
     permissions: z.array(z.enum(UserPermission))
 });
 
-export const CreateUserSchema = UserSchema.omit({ 
-  id: true, 
-  createdAt: true, 
-  updatedAt: true 
-});
-
 export type UserDetails = z.infer<typeof UserDetailsSchema>;
 export type User = z.infer<typeof UserSchema>;
-export type CreateUser = z.infer<typeof CreateUserSchema>;
 
-export type Customers = z.infer<typeof CustomersSchema>;
+export type Customer = z.infer<typeof CustomerDetailsSchema>;

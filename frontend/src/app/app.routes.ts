@@ -46,6 +46,11 @@ export const routes: Routes = [
         canActivate: [authGuard, managerGuard],
     },
     {
+        path: 'clients/edit/:id',
+        loadComponent: () => import('./components/clients/edit-client.component').then(m => m.EditClientComponent),
+        canActivate: [authGuard, managerGuard],
+    },
+    {
         path: 'fleet-management',
         loadComponent: () => import('./components/fleet/fleet-management.component').then(m => m.FleetManagementComponent),
         canActivate: [authGuard, managerGuard],

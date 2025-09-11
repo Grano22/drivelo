@@ -1,15 +1,15 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, NonNullableFormBuilder } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { TableModule } from 'primeng/table';
-import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
-import { AutoCompleteModule } from 'primeng/autocomplete';
-import { TagModule } from 'primeng/tag';
-import { AppStore } from '../../store/app.store';
-import {CustomersSchema, User, UserRole, UserStatus} from '../../types/user.types';
+import {Component, computed, inject, signal} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {NonNullableFormBuilder, ReactiveFormsModule} from '@angular/forms';
+import {RouterModule} from '@angular/router';
+import {TranslateModule} from '@ngx-translate/core';
+import {TableModule} from 'primeng/table';
+import {ButtonModule} from 'primeng/button';
+import {InputTextModule} from 'primeng/inputtext';
+import {AutoCompleteModule} from 'primeng/autocomplete';
+import {TagModule} from 'primeng/tag';
+import {AppStore} from '../../store/app.store';
+import {UserStatus} from '../../types/user.types';
 import {CustomerInternalHttpClient} from "../../services/customer-internal-http-client";
 
 @Component({
@@ -141,7 +141,7 @@ import {CustomerInternalHttpClient} from "../../services/customer-internal-http-
               <td>
                 <div class="flex gap-2">
                   <button
-                    [routerLink]="['/clients', client.id, 'edit']"
+                    [routerLink]="['/clients/edit', client.id]"
                     class="btn-secondary text-sm py-1 px-3"
                   >
                     {{ 'app.edit' | translate }}
@@ -229,8 +229,7 @@ export class ClientListComponent {
 
   #initializeData(): void {
     this.#customerInternalHttpClient.getCustomers().subscribe({
-        next: (rawResponse) => {
-            const customers = CustomersSchema.parse(rawResponse);
+        next: (customers) => {
             this.store.setCustomers(customers);
         },
         error: (error) => {
