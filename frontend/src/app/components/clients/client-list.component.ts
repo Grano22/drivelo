@@ -11,6 +11,7 @@ import {TagModule} from 'primeng/tag';
 import {AppStore} from '../../store/app.store';
 import {UserStatus} from '../../types/user.types';
 import {CustomerInternalHttpClient} from "../../services/customer-internal-http-client";
+import {filterAutocomplete} from "../../form/form.utils";
 
 @Component({
   selector: 'app-client-list',
@@ -69,7 +70,7 @@ import {CustomerInternalHttpClient} from "../../services/customer-internal-http-
               id="status"
               formControlName="status"
               [suggestions]="filteredStatuses()"
-              (completeMethod)="filterStatuses($event)"
+              (completeMethod)="filterAutocomplete($event, filteredStatuses, statusOptions)"
               [dropdown]="true"
               optionLabel="label"
               optionValue="value"
@@ -179,13 +180,6 @@ export class ClientListComponent {
   }));
 
   protected readonly filteredStatuses = signal(this.statusOptions);
-  protected filterStatuses(event: { query?: string }): void {
-    const q = (event.query || '').toLowerCase();
-    this.filteredStatuses.set(
-      !q ? this.statusOptions : this.statusOptions.filter(o => o.label.toLowerCase().includes(q))
-    );
-  }
-
   protected readonly filteredClients = computed(() => {
     const users = this.store.customers();
     const filters = this.filterForm.getRawValue();
@@ -237,4 +231,6 @@ export class ClientListComponent {
         }
     });
   }
+
+    protected readonly filterAutocomplete = filterAutocomplete;
 }

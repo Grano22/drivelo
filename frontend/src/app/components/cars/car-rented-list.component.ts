@@ -13,6 +13,7 @@ import { ImageModule } from 'primeng/image';
 import { AppStore } from '../../store/app.store';
 import { CarRentalOffer, VehicleType, GearboxType, EngineType, AmenityType } from '../../types/car.types';
 import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-http-clients";
+import {filterAutocomplete} from "../../form/form.utils";
 
 @Component({
     standalone: true,
@@ -65,7 +66,7 @@ import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-htt
               id="vehicleType"
               formControlName="vehicleType"
               [suggestions]="filteredVehicleTypes()"
-              (completeMethod)="filterVehicleTypes($event)"
+              (completeMethod)="filterAutocomplete($event, filteredVehicleTypes, vehicleTypeOptions)"
               [dropdown]="true"
               optionLabel="label"
               optionValue="value"
@@ -91,7 +92,7 @@ import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-htt
               id="engineType"
               formControlName="engineType"
               [suggestions]="filteredEngineTypes()"
-              (completeMethod)="filterEngineTypes($event)"
+              (completeMethod)="filterAutocomplete($event, filteredEngineTypes, engineTypeOptions)"
               [dropdown]="true"
               optionLabel="label"
               optionValue="value"
@@ -264,18 +265,6 @@ export class RentedCarListComponent {
 
     protected readonly filteredVehicleTypes = signal(this.vehicleTypeOptions);
     protected readonly filteredEngineTypes = signal(this.engineTypeOptions);
-    protected filterVehicleTypes(event: { query?: string }): void {
-        const q = (event.query || '').toLowerCase();
-        this.filteredVehicleTypes.set(
-            !q ? this.vehicleTypeOptions : this.vehicleTypeOptions.filter(o => o.label.toLowerCase().includes(q))
-        );
-    }
-    protected filterEngineTypes(event: { query?: string }): void {
-        const q = (event.query || '').toLowerCase();
-        this.filteredEngineTypes.set(
-            !q ? this.engineTypeOptions : this.engineTypeOptions.filter(o => o.label.toLowerCase().includes(q))
-        );
-    }
 
     protected readonly filteredCars = computed(() => {
         const cars = this.store.rentedCars();
@@ -349,4 +338,6 @@ export class RentedCarListComponent {
             }
         });
     }
+
+    protected readonly filterAutocomplete = filterAutocomplete;
 }

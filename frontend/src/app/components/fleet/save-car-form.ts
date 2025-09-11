@@ -11,6 +11,7 @@ import {PrimeTemplate} from "primeng/api";
 import {Textarea} from "primeng/textarea";
 import {AmenityType, EngineType, GearboxType, VehicleType} from "../../types/car.types";
 import {FormControlsOf} from "../../types/utility.types";
+import {filterAutocomplete} from "../../form/form.utils";
 
 export type SaveCarDetails = {
     brand: string,
@@ -102,7 +103,7 @@ export type SaveCarDetailsFormGroup = FormGroup<FormControlsOf<SaveCarDetails>>;
                             id="vehicleType"
                             formControlName="vehicleType"
                             [suggestions]="filteredVehicleTypes()"
-                            (completeMethod)="filterVehicleTypes($event)"
+                            (completeMethod)="filterAutocomplete($event, filteredVehicleTypes, vehicleTypeOptions)"
                             [dropdown]="true"
                             optionLabel="label"
                             optionValue="value"
@@ -158,7 +159,7 @@ export type SaveCarDetailsFormGroup = FormGroup<FormControlsOf<SaveCarDetails>>;
                             id="gearboxType"
                             formControlName="gearboxType"
                             [suggestions]="filteredGearboxTypes()"
-                            (completeMethod)="filterGearboxTypes($event)"
+                            (completeMethod)="filterAutocomplete($event, filteredGearboxTypes, gearboxTypeOptions)"
                             [dropdown]="true"
                             optionLabel="label"
                             optionValue="value"
@@ -184,7 +185,7 @@ export type SaveCarDetailsFormGroup = FormGroup<FormControlsOf<SaveCarDetails>>;
                             id="engineType"
                             formControlName="engineType"
                             [suggestions]="filteredEngineTypes()"
-                            (completeMethod)="filterEngineTypes($event)"
+                            (completeMethod)="filterAutocomplete($event, filteredEngineTypes, engineTypeOptions)"
                             [dropdown]="true"
                             optionLabel="label"
                             optionValue="value"
@@ -349,27 +350,6 @@ export class SaveCarForm {
     protected readonly filteredGearboxTypes = signal(this.gearboxTypeOptions);
     protected readonly filteredEngineTypes = signal(this.engineTypeOptions);
 
-    protected filterVehicleTypes(event: { query?: string }): void {
-        const q = (event.query || '').toLowerCase();
-        this.filteredVehicleTypes.set(
-            !q ? this.vehicleTypeOptions : this.vehicleTypeOptions.filter(o => o.label.toLowerCase().includes(q))
-        );
-    }
-
-    protected filterGearboxTypes(event: { query?: string }): void {
-        const q = (event.query || '').toLowerCase();
-        this.filteredGearboxTypes.set(
-            !q ? this.gearboxTypeOptions : this.gearboxTypeOptions.filter(o => o.label.toLowerCase().includes(q))
-        );
-    }
-
-    protected filterEngineTypes(event: { query?: string }): void {
-        const q = (event.query || '').toLowerCase();
-        this.filteredEngineTypes.set(
-            !q ? this.engineTypeOptions : this.engineTypeOptions.filter(o => o.label.toLowerCase().includes(q))
-        );
-    }
-
     protected carForm = this.#fb.group({
         brand: ['', [Validators.required, Validators.minLength(2)]],
         model: ['', [Validators.required, Validators.minLength(1)]],
@@ -427,4 +407,6 @@ export class SaveCarForm {
     protected async onInternalSubmit(): Promise<void> {
         this.onSubmit.emit(this.carForm);
     }
+
+    protected readonly filterAutocomplete = filterAutocomplete;
 }

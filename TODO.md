@@ -16,3 +16,5 @@
 - [ ] Create a logo and improve the README experience
 - [ ] Make it cloud ready (long-term plan to breakdown)
 - [ ] Create the first release to the prod (v0.0.1)
+- [ ] Add pagination and API filtering
+- [ ] Add API Rate Limiting
