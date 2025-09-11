@@ -11,6 +11,9 @@ It is built upon a simple SPA frontend and REST API backend.
 
 ## ✨ Features preview
 
+#### Light / Dark mode
+![light_dark_mode](./documentation/dark_light_theme.jpg)
+
 #### Login Screen
 ![login_screen](./documentation/login_screen.jpg)
 
@@ -31,6 +34,12 @@ It is built upon a simple SPA frontend and REST API backend.
 
 #### Car renting Screen
 ![customer_dashboard_screen](./documentation/renting_screen.jpg)
+
+### Edit customer details Screen
+![customer_dashboard_screen](./documentation/edit_client.jpg)
+
+### Edit car details Screen
+![customer_dashboard_screen](./documentation/edit_car_with_rental_offert.jpg)
 
 ### 🎭 Actors
 

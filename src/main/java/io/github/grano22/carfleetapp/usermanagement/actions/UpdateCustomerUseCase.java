@@ -8,6 +8,7 @@ import io.github.grano22.carfleetapp.usermanagement.infrastructure.persistance.U
 import org.apache.logging.log4j.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -21,10 +22,12 @@ public class UpdateCustomerUseCase {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     private final Clock clock;
 
-    public UpdateCustomerUseCase(UserRepository userRepository, Clock clock) {
+    public UpdateCustomerUseCase(UserRepository userRepository, PasswordEncoder passwordEncoder, Clock clock) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
         this.clock = clock;
     }
 
@@ -35,6 +38,10 @@ public class UpdateCustomerUseCase {
 
         List<String> changedFields = new ArrayList<>();
         builder = BuilderPatcher.patch(request, builder, User.UserBuilder.class, changedFields::add);
+
+        if (changedFields.contains("password")) {
+            builder = builder.password(passwordEncoder.encode(request.password()));
+        }
 
         if (!changedFields.isEmpty()) {
             builder = builder.updatedAt(LocalDateTime.now(clock));
