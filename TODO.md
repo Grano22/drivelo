@@ -6,6 +6,7 @@
 - [ ] Add customer account status edit subform
 - [ ] Do some clean up
 - [ ] Use map struct
+- [ ] Store images within app db or S3
 - [ ] Add GitHub actions pipeline (CI/CD)
 - [ ] Add precommit hooks to run test before commit
 - [ ] Add e2e tests or full flow integration tests
