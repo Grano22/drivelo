@@ -134,7 +134,7 @@ export class EditClientComponent {
                 }
             });
         } catch (error) {
-            this.errorMessage.set('Failed to create client. Please check all fields.');
+            this.errorMessage.set('Failed to update client. Please check all fields.');
         }
     }
 
@@ -146,7 +146,6 @@ export class EditClientComponent {
     #fetchCustomerDetails(customerId: string) {
         this.#customerInternalHttpClient.getCustomer(customerId).subscribe({
             next: (customer) => {
-                this.fetchedCustomerDetails.set(customer);
                 this.fetchedCustomerDetails.set(customer);
                 this.apiLoaded.set(true);
             },

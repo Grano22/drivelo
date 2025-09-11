@@ -40,6 +40,8 @@
         "capacity": "Capacity",
         "pricePerDay": "Price per Day",
         "status": "Status",
+        "offerStatus": "Offer Status",
+        "carStatus": "Car status",
         "gearbox": "Transmission",
         "engine": "Engine",
         "amenities": "Amenities",

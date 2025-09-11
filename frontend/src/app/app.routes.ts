@@ -61,6 +61,11 @@ export const routes: Routes = [
         canActivate: [authGuard, managerGuard],
     },
     {
+        path: 'fleet-management/edit/:id',
+        loadComponent: () => import('./components/fleet/edit-car-component').then(m => m.EditCarComponent),
+        canActivate: [authGuard, managerGuard],
+    },
+    {
         path: '**',
         redirectTo: '/dashboard',
     },

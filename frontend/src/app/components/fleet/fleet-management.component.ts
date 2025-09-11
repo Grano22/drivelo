@@ -93,7 +93,7 @@ import {CarFleetInternalHttpClients} from "../../services/car-fleet-internal-htt
               <td>
                 <div class="flex gap-2">
                   <button
-                    [routerLink]="['/fleet-management', car.id, 'edit']"
+                    [routerLink]="['/fleet-management/edit', car.id]"
                     class="btn-secondary text-sm py-1 px-3"
                   >
                     {{ 'app.edit' | translate }}

@@ -1,4 +1,5 @@
 import {FormControl, FormGroup} from "@angular/forms";
+import {WritableSignal} from "@angular/core";
 
 type PayloadFromForm<T extends Record<string, FormControl<unknown>>> = {
     [K in keyof T]: T[K] extends FormControl<infer V> ? V : never;
@@ -40,4 +41,18 @@ export const normalizePayload = <T extends Record<string, unknown>, N extends No
     });
 
     return normalizedResult as NormalizedPayload<T, N>;
+}
+
+export type AutocompleteItem<T> = {
+    label: string;
+    value: T;
+}
+
+export const filterAutocomplete = <T>(event: { query?: string }, updater: WritableSignal<Array<AutocompleteItem<T>>>, itemsSource: Array<AutocompleteItem<T>>) => {
+    const q = (event.query || '').toLowerCase();
+    const list = !q ?
+        itemsSource :
+        itemsSource.filter(o => o.label.toLowerCase().includes(q));
+
+    updater.set([ ...list ]);
 }

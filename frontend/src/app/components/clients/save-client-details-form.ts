@@ -7,7 +7,6 @@ import {Message} from "primeng/message";
 import {RouterLink} from "@angular/router";
 import {TranslatePipe} from "@ngx-translate/core";
 import {FormControlsOf} from "../../types/utility.types";
-import {JsonPipe} from "@angular/common";
 
 export type SaveClientDetails = {
     firstName: string,
@@ -30,8 +29,7 @@ export type SaveClientDetailsFormGroup = FormGroup<FormControlsOf<SaveClientDeta
         Message,
         ReactiveFormsModule,
         RouterLink,
-        TranslatePipe,
-        JsonPipe
+        TranslatePipe
     ],
     standalone: true,
     template: `

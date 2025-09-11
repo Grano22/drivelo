@@ -86,12 +86,6 @@ export const CarRentalSchema = CarSchema.extend({
     rentedUntil: z.iso.datetime()
 });
 
-export const CreateCarSchema = CarRentalOfferSchema.omit({
-    id: true,
-    createdAt: true,
-    updatedAt: true
-});
-
 export const RentalRequestSchema = z.object({
     carId: z.uuid(),
     userId: z.uuid(),
@@ -101,13 +95,8 @@ export const RentalRequestSchema = z.object({
     totalPrice: z.number().min(0),
 });
 
-export const CarRentalOffersSchema = z.array(CarRentalOfferSchema);
-export const CarRentalsSchema = z.array(CarRentalSchema);
-
 export type CarRentalOffer = z.infer<typeof CarRentalOfferSchema>;
-export type CarRentalOffers = z.infer<typeof CarRentalOffersSchema>;
 export type CarRental = z.infer<typeof CarRentalSchema>;
 
-export type CreateCar = z.infer<typeof CreateCarSchema>;
 export type Amenity = z.infer<typeof AmenitySchema>;
 export type RentalRequest = z.infer<typeof RentalRequestSchema>;

@@ -40,6 +40,8 @@
         "capacity": "Pojemność",
         "pricePerDay": "Cena za dzień",
         "status": "Status",
+        "offerStatus": "Status oferty",
+        "carStatus": "Status auta",
         "gearbox": "Skrzynia biegów",
         "engine": "Silnik",
         "amenities": "Wyposażenie",

@@ -3,8 +3,8 @@ import {HttpClient} from "@angular/common/http";
 import {switchMap} from "rxjs";
 import {
     AmenityType,
-    CarRentalOffersSchema,
-    CarRentalsSchema,
+    CarRentalOfferSchema,
+    CarRentalSchema,
     CarStatus,
     EngineType,
     GearboxType,
@@ -38,9 +38,14 @@ type AddCarRentalOfferPayload = {
     description: string;
 }
 
-export type AddCarWithRentalOfferPayload = {
+export type SaveCarWithRentalOfferPayload = {
     car: AddCarPayload;
     rentalOfferDetails: AddCarRentalOfferPayload;
+};
+
+export type UpdateCarWithRentalOfferPayload = {
+    car: Partial<AddCarPayload>;
+    rentalOfferDetails: Partial<AddCarRentalOfferPayload>;
 };
 
 @Injectable({ providedIn: 'root' })
@@ -50,19 +55,29 @@ export class CarFleetInternalHttpClients {
     public getCarRentalOffers() {
         return this.#http.get(INTERNAL_API_BASE + '/car-fleet/v1', { withCredentials: true }).pipe(
             switchMap(rawResponse => {
-                return CarRentalOffersSchema.parseAsync(rawResponse);
+                return CarRentalOfferSchema.array().parseAsync(rawResponse);
             })
         );
     }
 
-    public addCarWithRentalOffer(payload: AddCarWithRentalOfferPayload) {
+    public getCarWithRentalOffer(offerId: string) {
+        return this.#http.get(INTERNAL_API_BASE + `/car-fleet/v1/${offerId}`, { withCredentials: true }).pipe(
+            switchMap(rawResponse =>  CarRentalOfferSchema.parseAsync(rawResponse))
+        );
+    }
+
+    public addCarWithRentalOffer(payload: SaveCarWithRentalOfferPayload) {
         return this.#http.post(INTERNAL_API_BASE + '/car-fleet-management/v1/car-with-rental-offer/save/', payload, { withCredentials: true });
+    }
+
+    public updateCarWithRentalOffer(offerId: string, payload: UpdateCarWithRentalOfferPayload) {
+        return this.#http.put(INTERNAL_API_BASE + `/car-fleet-management/v1/car-with-rental-offer/save/${offerId}`, payload, { withCredentials: true });
     }
 
     public getCarsForRent() {
         return this.#http.get(INTERNAL_API_BASE + '/car-fleet/v1/for_rent', { withCredentials: true }).pipe(
             switchMap(rawResponse => {
-                return CarRentalOffersSchema.parseAsync(rawResponse);
+                return CarRentalOfferSchema.array().parseAsync(rawResponse);
             })
         );
     }
@@ -70,7 +85,7 @@ export class CarFleetInternalHttpClients {
     public getRentedCars() {
         return this.#http.get(INTERNAL_API_BASE + '/car-rental/v1/rented', { withCredentials: true }).pipe(
             switchMap(rawResponse => {
-                return CarRentalsSchema.parseAsync(rawResponse);
+                return CarRentalSchema.array().parseAsync(rawResponse);
             })
         );
     }
